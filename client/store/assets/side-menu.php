@@ -17,8 +17,8 @@
         </div>
         <div class="nav-content tab-content">
             <div class="tab-pane active" id="menu-list">
-                <div class="nav-profile"><a href="/profile.html"><img src="./img/<?php if($_SESSION['userid']==360){ echo 'uicon.png'; }elseif($_SESSION['userid']==354){echo 'usericon.jpeg';} else{echo 'user.png';} ?>" alt="user"></a>
-                    <h4><a href="/index.html#"><?php echo $_SESSION['name']; ?></a></h4>
+                <div class="nav-profile"><a href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/store/profile.php"; ?>"><img src="./img/<?php if($_SESSION['userid']==360){ echo 'uicon.png'; }elseif($_SESSION['userid']==354){echo 'usericon.jpeg';} else{echo 'user.png';} ?>" alt="user"></a>
+                    <h4><a href="#"><?php echo $_SESSION['name']; ?></a></h4>
                 </div>
                 <ul class="nav-list">
                     <?php //if($_SESSION['memberRegPending']==false&&$_SESSION['memberRegOver']==false){ ?>

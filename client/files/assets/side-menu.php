@@ -10,8 +10,8 @@
       </div>
       <div class="nav-content tab-content">
         <div class="tab-pane active" id="menu-list">
-          <div class="nav-profile"><a href="/profile.html"><img src="../store/img/user.png" alt="user"></a>
-            <h4><a href="/index.html#"><?php echo $_SESSION['name']; ?></a></h4>
+          <div class="nav-profile"><a href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/store/profile.php"; ?>"><img src="../store/img/user.png" alt="user"></a>
+            <h4><a href="#"><?php echo $_SESSION['name']; ?></a></h4>
           </div>
           <ul class="nav-list">
         <li><a class="nav-link" href="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/client/files/myFiles.php"; ?>"><i class="icofont-ui-home"></i><span>(My Drive)My Files</span></a></li>
