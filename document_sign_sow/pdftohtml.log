@@ -1,0 +1,1 @@
+shell:pdftohtml uploads/42.pdf htmlfolder/42pdf<br />\nres:<br />\nshell:pdftohtml uploads/42.pdf htmlfolder/42pdf<br />\nshell:pdftohtml uploads/42.pdf htmlfolder/42pdf<br />\nres:<br />\nshell:pdftohtml uploads/42.pdf htmlfolder/42pdf/<br />\nres:<br />\n
