@@ -149,7 +149,7 @@ $app=$_SESSION['app'];
         <li class="breadcrumb-item">
           <a href="../../home.php">Dashboard</a>
         </li>
-        <li class="breadcrumb-item">Client</li>
+        <li class="breadcrumb-item"><a href='<?php echo 'https://'.$_SERVER['HTTP_HOST'].$config['appRoot'].'/organization/client/viewClient.php'; ?>' >Client</a></li>
         <li class="breadcrumb-item active">Edit Client</li>
       </ol>
     </div>

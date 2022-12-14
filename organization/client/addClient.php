@@ -82,7 +82,7 @@ require($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/product.php"
         <li class="breadcrumb-item">
           <a href="../../home.php">Dashboard</a>
         </li>
-        <li class="breadcrumb-item">Client</li>
+          <li class="breadcrumb-item"><a href='<?php echo 'https://'.$_SERVER['HTTP_HOST'].$config['appRoot'].'/organization/client/viewClient.php'; ?>' >Client</a></li>
         <li class="breadcrumb-item active">Add Client</li>
       </ol>
     </div>

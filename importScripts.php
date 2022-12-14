@@ -114,8 +114,12 @@ function numberWithSpaces(x) {
       a.active , a.active:hover {
           background-color: #000;
       }
-      li.active a, li.active a:hover {
-          background-color: #b11016 !important;
-          color:#fff !important;
+      #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a{
+          background-color: #ffa0a1 !important;
+          color: #232323 !important;
       }
+      #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a span{
+          color: #232323 !important;
+      }
+
       </style>
