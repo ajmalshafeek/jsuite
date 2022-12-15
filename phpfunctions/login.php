@@ -230,9 +230,9 @@ if(isset($_POST["loginClientByForm"])){
        if($_SESSION['memberReg']==1){
             $cid=$data['companyId'];
             $mem=checkMembershipModule($con,$cid);
-           
+           $_SESSION['message']="";
            if(empty($mem)&&$st==2){
-                $_SESSION['message']="<div class='alert alert-danger'>We are not found any subscription. Please subscribe membership on plan.</div>";
+                $_SESSION['message']="<div class='container'><div class='row'><div class='col-12'><div class='alert alert-danger'>We are not found any subscription. Please subscribe membership on plan.</div></div></div></div>";
             //   header("Location:  https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/client/index.php");
                $_SESSION['memberRegPending']=false;
                $_SESSION['memberRegOver']=false;
@@ -242,8 +242,6 @@ if(isset($_POST["loginClientByForm"])){
                 $plan=$mem['title'];
                 $end=$mem['pay'];
                 $l=strlen($plan);
-
-               print_r($date);
                $date=date('Y-m-d', strtotime($date. ' + '.$end.' days'));
                $date=date_create($date);
                $date=date_format($date,"Ymd");
@@ -259,7 +257,13 @@ if(isset($_POST["loginClientByForm"])){
                 }
             }
         }
-
+       $pass=$password.'';
+        if(strcmp($pass,"12345678")==0) {
+            $_SESSION['message'].="<div class='container'><div class='row'><div class='col-12'>
+            <div class='alert-info py-2 px-2'>
+            <p><strong>Default Password Need to change!</strong> Kindly change your password <a href='https:\\\\".$_SERVER['HTTP_HOST'].$config['appRoot']."\client\store\profile.php'>under profile</a></p>
+          </div></div></div></div>";
+        }
 		$_SESSION['identification']=$data['identification'];
 		$_SESSION['companyId']=$data['companyId'];
 		$data1=fetchClientCompanyDetails($con,$_SESSION['companyId']);
