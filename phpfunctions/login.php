@@ -104,11 +104,9 @@ if(!isset($_SESSION))
 				ob_start();
 				appExtraFeatures();
 				ob_end_clean();
-
 			}else{
 				addSessionUser($con,$data['id'],$type,session_id(),date('Y-m-d H:i:s'),$orgId);
 			}
-
 			/* start of CLEANTO LOGIN */
 		/*	if($_SESSION['userid']>0){
 				require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/cleanto/objects/class_login_check.php");
@@ -125,7 +123,6 @@ if(!isset($_SESSION))
 			$_SESSION['message']="<div class='alert alert-danger'>You have entered wrong username or password. Please try again.</div>";
 			header("Location:  https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/index.php");
 		}
-
 	}
 
 	   function appExtraFeatures()

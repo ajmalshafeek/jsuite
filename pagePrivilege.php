@@ -4,41 +4,7 @@ $config = parse_ini_file(__DIR__ . "/jsheetconfig.ini");
 require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/role.php");
 
 $currentUrl = $_SERVER['REQUEST_URI'];
-
-
-$orgAdminPages = array(
-  "/organization/attendance/attendance.php",
-  "/organization/attendance/viewAttendance.php",
-  "/organization/attendance/attendancereport.php",
-  "/organization/attendance/setting.php",
-
-  "/organization/vendor/viewVendor.php",
-  "/organization/vendor/editVendor.php",
-  "/organization/client/viewClient.php",
-  "/organization/report/report.php",
-  "/organization/vendor/addVendorClient.php",
-  "/organization/vendor/addVendor.php",
-  "/organization/vendor/addJobList.php",
-  "/organization/client/addClient.php",
-  "/organization/client/editClient.php",
-  "/organization/client/fileManager.php",
-  "/organization/client/addSignatory.php",
-  "/organization/client/editSignatory.php",
-  "/organization/client/viewSignatory.php",
-  "/organization/client/addIndividualMember.php",
-  "/organization/client/addCorporate Member.php",
-
-  "/organization/receipt/receipt.php",
-  "/organization/receipt/mailReceipt.php",
-
-  "/organization/role/role.php",
-
-  "/organization/staff/editStaff.php",
-  "/organization/staff/viewStaff.php",
-  "/organization/staff/addStaff.php",
-  "/organization/staff/myTask/viewTask.php",
-  "/organization/staff/myTask/updateJob.php",
-
+$deleteAdminEntries=array(
   "/organization/auditors/ccmsEligiblity.php",
   "/organization/auditors/epfLetterApproval.php",
   "/organization/auditors/examinationList.php",
@@ -80,7 +46,41 @@ $orgAdminPages = array(
   "/organization/auditors/employeeDrive.php",
   "/organization/auditors/trainingDevelopment.php",
   "/organization/auditors/performanceManagement.php",
-  "/organization/auditors/api.php",
+  "/organization/auditors/api.php"
+);
+
+$orgAdminPages = array(
+  "/organization/attendance/attendance.php",
+  "/organization/attendance/viewAttendance.php",
+  "/organization/attendance/attendancereport.php",
+  "/organization/attendance/setting.php",
+
+  "/organization/vendor/viewVendor.php",
+  "/organization/vendor/editVendor.php",
+  "/organization/client/viewClient.php",
+  "/organization/report/report.php",
+  "/organization/vendor/addVendorClient.php",
+  "/organization/vendor/addVendor.php",
+  "/organization/vendor/addJobList.php",
+  "/organization/client/addClient.php",
+  "/organization/client/editClient.php",
+  "/organization/client/fileManager.php",
+  "/organization/client/addSignatory.php",
+  "/organization/client/editSignatory.php",
+  "/organization/client/viewSignatory.php",
+  "/organization/client/addIndividualMember.php",
+  "/organization/client/addCorporate Member.php",
+
+  "/organization/receipt/receipt.php",
+  "/organization/receipt/mailReceipt.php",
+
+  "/organization/role/role.php",
+
+  "/organization/staff/editStaff.php",
+  "/organization/staff/viewStaff.php",
+  "/organization/staff/addStaff.php",
+  "/organization/staff/myTask/viewTask.php",
+  "/organization/staff/myTask/updateJob.php",
 
   "/organization/department/addDepartment.php",
   "/organization/department/editDepartment.php",
@@ -296,9 +296,13 @@ $orgAdminPages = array(
   "/document_sign_sow/views/member_view_pdf.php",
   "/document_sign_sow/views/view_pdf.php",
   "/document_sign_sow/views/member_view_apdf.php",
-
-
-
+  "/organization/member/addMember.php",
+  "/organization/member/editMember.php",
+  "/organization/member/viewMember.php",
+  "/organization/member/addIndividualMember.php",
+  "/organization/member/newMemberRequest.php",
+  "/organization/member/potentialMember.php"
+    
 );
 
 $orgStaffPages = array(
@@ -356,11 +360,8 @@ $clientStore = array(
   "/client/pdfSign/pdfList.php",
   "/client/pdfSign/pdf.php",
   "/client/pdfSign/signPDF.php",
-  "/client/pdfSign/viewPDF.php",
-
+  "/client/pdfSign/viewPDF.php"
 );
-
-
 
 if (isOrganization() == true) {
 
