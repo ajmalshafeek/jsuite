@@ -2121,6 +2121,65 @@ if ($pageCheck == 0) {
                                 </ul>
 
                             </li>
+                            <!--client end -->
+                            <!-- member -->
+                            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Client">
+
+                                <a class="nav-link nav-link-collapse collapsed li-nav-style" data-toggle="collapse" href="#collapseMember" data-parent="#exampleAccordion">
+                                    <i class="fa fa-user"></i>
+                                    <span class="nav-link-text">Membership</span>
+                                </a>
+
+                                <ul class="sidenav-second-level collapse" id="collapseMember">
+
+                                    <li>
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/member/addMember.php'; ?>'>Add Member</a>
+                                    </li>
+
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/member/viewMember.php'; ?>'>View Member<span style="background-color:#e91e63;color:black !important;" class="badge badge-primary memberbox"></span></a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/member/newMemberRequest.php'; ?>'>New Request Member
+                                            <span style="background-color:#8bc34a;color:black !important;" class="badge badge-primary newrequest"><?php echo $_SESSION['newrequestNor'] ?></span></a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/member/potentialMember.php'; ?>'>Potential Member
+                                            <span style="background-color:#ffc107;color:black !important;" class="badge badge-primary potential"><?php echo $_SESSION['potentialNor'] ?></span></a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/membership-subscription/subscriber.php'; ?>'>Pending Approval</a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/membership-subscription/activatedSubscriber.php'; ?>'>Approved Member</a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/membership-subscription/membershipPlan.php'; ?>'>Membership Plan</a>
+
+                                    </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/membership-subscription/addMembership.php'; ?>'>Add Membership Plan</a>
+
+                                    </li>
+
+
+
+                                </ul>
+
+                            </li>
+                            <!-- end member -->
                             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Client">
 
                                 <a class="nav-link nav-link-collapse collapsed li-nav-style" data-toggle="collapse" href="#collapseTerminate" data-parent="#exampleAccordion">

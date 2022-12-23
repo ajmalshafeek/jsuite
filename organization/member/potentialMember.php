@@ -143,13 +143,12 @@ include $_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/navMenu.php";
             Member List
         </div>
         <?php
-        newClientRequestListTableEditable(0);
+        newMemberRequestListTableEditable(0);
         ?>
     </div>
 </div>
 </div>
-<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/organization/client/addClient.php" ?>" >
-
+<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/organization/member/addMember.php" ?>" >
     <div class="modal fade" id="clientEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -167,7 +166,7 @@ include $_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/navMenu.php";
 
                     <div class="modal-footer">
                         <input type="text" hidden name="clientIdToEdit" id="clientIdToEdit" value=""  />
-                        <button type="submit" name='sendForm' class="btn btn-primary remove" value="1" >Send form</button>
+                        <!--<button type="submit" name='sendForm' class="btn btn-primary remove" value="1" >Send form</button>-->
                         <button type="submit" name='addNewClient' class="btn btn-primary edit" value="1" >Add as client</button>
                         <button type="button" class="btn btn-secondary remove" data-dismiss="modal">CANCEL</button>
                     </div>

@@ -6,7 +6,7 @@
 	session_start();
 }
 
-require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientCompany.php");
+require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/memberDetails.php");
 
 ?>
 <!DOCTYPE html >
@@ -16,7 +16,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="shortcut icon" type="image/x-icon" href='<?php echo 'https://'.$_SERVER['HTTP_HOST'].$config['appRoot'].'/resources/app/favIcon.ico'; ?>' />
 
 
@@ -46,30 +46,25 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
 
       }
 
-      function clientEdit(str){
+      function memberEdit(str){
 
-        $("#clientIdToEdit").val(str.value);
-        $(".clientIdToEdit").val(str.value);
-
+        $("#memberIdToEdit").val(str.value);
+        $(".memberIdToEdit").val(str.value);
       }
 
-
-    <?php  if(isset($_SESSION['downloadclients']) && $_SESSION['downloadclients']){ ?>
-    $(document).ready(function() {
-    $('#dataTable2').DataTable( {
+      $(document).ready(function() {
+        $('#memberTable').DataTable( {
         dom: 'Bfrtip',
         buttons: [
             { extend: 'excel', text: 'Download Excel' ,
-                title:'Client list',
+                title:'Member list',
                 exportOptions: {
-                    columns: ':not(:last-child)',
+                    columns: [0,1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51],
                 }
-
             }
         ]
     } );
     } );
-        <?php } ?>
 
       function showPassword(pwdId) {
 
@@ -107,22 +102,6 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
     #dataTable_paginate{
         color:black !important;
     }
-
-    #dataTable2_filter{
-        display:none;
-    }
-
-    #dataTable2{
-        display:none;
-    }
-
-    #dataTable2_info{
-        display:none;
-    }
-
-    #dataTable2_paginate{
-        display:none;
-    }
     </style>
 
 </head>
@@ -157,14 +136,13 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
             Client List
 				  </div>
           <?php
-            clientListTableEditable();
-          if (isset($_SESSION['downloadclients'])&&$_SESSION['downloadclients']) { clientListDataTable(); /*for excel export*/ }
-          ?>
+          memberListTableEditable();
+        ?>
           </div>
         </div>
     </div>
 <!--
-    <form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/clientCompany.php" ?>" >
+    <form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/memberDetails.php" ?>" >
 
 <div class="modal fade" id="clientDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -192,8 +170,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
     </div>
   </form> -->
 
-  <form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/clientCompany.php" ?>" >
-
+  <form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/memberDetails.php" ?>" >
 <div class="modal fade" id="clientEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -204,14 +181,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
           </button>
         </div>
         <div class="modal-body">
-
           <div id='staffEditContent' >
-              What action do you wish to do for the user?
+              What action do you wish to do for the member?
           </div>
-
         <div class="modal-footer">
-          <input type="text" hidden name="clientIdToEdit" id="clientIdToEdit" value=""  />
-          <button type="submit" name='editClient' class="btn btn-primary edit" >EDIT</button>
+          <input type="text" hidden name="memberIdToEdit" id="memberIdToEdit" value=""  />
+          <button type="submit" name='editMember' class="btn btn-primary edit" >EDIT</button>
             <button type="button" data-toggle='modal' data-target='#clientDeleteModal' class="btn btn-primary remove" >Remove</button>
           <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">CANCEL</button>
         </div>
@@ -253,7 +228,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
           </div>
   </div>
 
-<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/clientCompany.php" ?>" >
+<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/phpfunctions/memberDetails.php" ?>" >
 
     <div class="modal fade" id="clientDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -267,12 +242,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientC
                 <div class="modal-body">
 
                     <div id='staffEditContent' >
-                        Are you sure want to delete client?
+                        Are you sure want to delete member?
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="text" hidden name="clientIdToEdit" class="clientIdToEdit" value=""  />
-                    <button type="submit" name='removeClient' class="btn btn-primary edit" >Yes</button>
+                    <input type="text" hidden name="memberIdToEdit" class="memberIdToEdit" value=""  />
+                    <button type="submit" name='removeMember' class="btn btn-primary edit" >Yes</button>
                     <button type="button" class="btn btn-secondary remove" data-dismiss="modal">No</button>
                 </div>
             </div>

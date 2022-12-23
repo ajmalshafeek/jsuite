@@ -1199,6 +1199,82 @@ if($_SESSION['clientpasscol']==1){
 	   }
 	   $table.= "</table>";
 	   $table.= "</div>";
+	   echo $table;
+   }
+   function newMemberRequestListTableEditable($value){
+	   $con=connectDb();
+
+	   $table="<div class='table-responsive'>\n";
+	   $table.="<table  class='table' id='dataTable' width='100%' cellspacing='0' >\n";
+	   $table.="<thead class='thead-dark'>\n";
+	   $table.="<tr>\n";
+	   $table.=	"<th>\n";
+	   $table.=		"#\n";
+	   $table.=	"</th>\n";
+	   $table.=	"<th>\n";
+	   $table.=	" Name\n";
+	   $table.= 	"</th>\n";
+	   $table.=	"<th>\n";
+	   $table.=	"Company";
+	   $table.= 	"</th>\n";
+	   $table.=	"<th>\n";
+	   $table.=	"Email";
+	   $table.= 	"</th>\n";
+		   $table.= 	"<th>\n";
+		   $table.= 		"Country\n";
+		   $table.= 	"</th>\n";
+	   $table.= 	"<th>\n";
+	   $table.= 		"Action\n";
+	   $table.= 	"</th>\n";
+
+	   $table.= "</tr>\n";
+	   $table.= "</thead >\n";
+
+	   $i=1;
+	   $orgId=$_SESSION['orgId'];
+	   $dataList=fetchNewClientCompanyList($con,$value);
+	   $config=parse_ini_file(__DIR__."/../jsheetconfig.ini");
+
+	   require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/query/clientUser.php");
+
+	   foreach($dataList as $data){
+		   $table.= "<tr ";
+		   if($i%2==0)
+			   $table.= "style='background-color:#FFF5EB;'";
+		   else{
+			   $table.= "style='background-color:#F9F9F9;'";
+		   }$table.= ">";
+
+		   $table.=	"<td style='font-weight:bold' onclick='clientProduct(".$data['id'].")' data-toggle='modal' data-target='#clientProductModal' >";
+		   $table.=		$i++;
+		   $table.=	"</td>";
+		   $table.=	"<td onclick='clientProduct(".$data['id'].")' data-toggle='modal' data-target='#clientProductModal' >";
+		   $table.=		$data['name'];
+		   $table.=	"</td>";
+		   $table.=	"<td onclick='clientProduct(".$data['id'].")' data-toggle='modal' data-target='#clientProductModal' >";
+		   $table.=	$data['company'];
+		   $table.=	"</td>";
+		   $table.=	"<td onclick='clientProduct(".$data['id'].")' data-toggle='modal' data-target='#clientProductModal' >";
+		   $table.=	$data['email'];
+		   $table.=	"</td>";
+		   $table.=	"<td onclick='clientProduct(".$data['id'].")' data-toggle='modal' data-target='#clientProductModal' >";
+		   $table.=	$data['country'];
+		   $table.=	"</td>";
+		   $table.="<td>";
+		   $table.="<div class='dropdown'>";
+		   $table.="<button type='button' class='btn  dropdown-toggle' data-toggle='dropdown'>
+				OPTION
+				</button>
+				<div class='dropdown-menu'>";
+		   $table.="<button type='button' data-toggle='modal' data-target='#clientEditModal' class='dropdown-item' onclick='clientEdit(this)' value='$data[id]' style='cursor:pointer'>ACTIONS</button>";
+		   $table.="</div>
+					</div>";
+		   $table.="</td>";
+
+		   $table.= "</tr>";
+	   }
+	   $table.= "</table>";
+	   $table.= "</div>";
 
 	   echo $table;
    }

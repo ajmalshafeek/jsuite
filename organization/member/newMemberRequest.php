@@ -147,13 +147,12 @@ include $_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/navMenu.php";
             Client List
         </div>
         <?php
-        newClientRequestListTableEditable(1);
+        newMemberRequestListTableEditable(1);
         ?>
     </div>
 </div>
 </div>
-<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/organization/client/addClient.php" ?>" >
-
+<form method="POST" action="<?php echo "https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/organization/member/addMember.php" ?>" >
     <div class="modal fade" id="clientEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -210,7 +209,7 @@ include $_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/navMenu.php";
                 </div>
                 <div class="modal-footer">
                     <input type="text" hidden name="clientIdToEdit" class="clientIdToEdit" value=""  />
-                    <button type="submit" name='removeNewClientRequest' class="btn btn-primary edit" >Yes</button>
+                    <button type="submit" name='removeNewMemberRequest' class="btn btn-primary edit" >Yes</button>
                     <button type="button" class="btn btn-secondary remove" data-dismiss="modal">No</button>
                 </div>
             </div>

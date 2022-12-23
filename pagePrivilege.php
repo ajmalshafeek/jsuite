@@ -302,7 +302,6 @@ $orgAdminPages = array(
   "/organization/member/addIndividualMember.php",
   "/organization/member/newMemberRequest.php",
   "/organization/member/potentialMember.php"
-    
 );
 
 $orgStaffPages = array(

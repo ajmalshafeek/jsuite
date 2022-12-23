@@ -156,6 +156,23 @@ if (isset($_POST['removeNewClientRequest'])) {
     $con = connectDb();
      $clientId = $_POST['clientIdToEdit'];
     $success = deletNewClientById($con, $clientId);
+    if (!$success) {
+        $_SESSION['feedback']="<div class='alert alert-warning' role='alert'>\n
+			<strong>FAILED!</strong>FAILED TO REMOVE CLIENT'S INFORMATIONS\n
+			</div>\n";
+    }else{
+        $_SESSION['feedback']="<div class='alert alert-success' role='alert'>\n
+			<strong>SUCCESS!</strong>REMOVE CLIENT'S INFORMATIONS\n</div>\n";
+    }
+    if ($_SESSION['memberReg']==1) {
+        header("Location:  https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/organization/membership-subscription/subscriber.php");
+    }else
+        header("Location:  https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/organization/client/newClientRequest.php");
+}
+if (isset($_POST['removeNewMemberRequest'])) {
+    $con = connectDb();
+     $clientId = $_POST['clientIdToEdit'];
+    $success = deletNewClientById($con, $clientId);
 
     if (!$success) {
         $_SESSION['feedback']="<div class='alert alert-warning' role='alert'>\n
