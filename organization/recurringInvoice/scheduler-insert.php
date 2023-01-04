@@ -37,12 +37,12 @@ if(isset($_SESSION['recurring'])){
     $recurring=$_SESSION['recurring'];
 
     $str="insert into invoice_scheduler (schedule_date,recurring,`next`)values('".$schedule_date."','".$recurring."','".$schedule_date."')";
-    $top_result = mysqli_query($con,$str) or die(mysqli_error(e));
+    $top_result = mysqli_query($con,$str) or die(mysqli_error($con));
     $last_id = mysqli_insert_id($con);
 
 
         $str1="insert into invoice_scheduler_sub (invoice_scheduler_id,client_id,invoice_id)values('".$last_id."','".$client_id."','".$invoice_id."')";
-        $result = mysqli_query($con,$str1) or die(mysqli_error(e));
+        $result = mysqli_query($con,$str1) or die(mysqli_error($con));
     unset($_SESSION['reInvoiceid']);
     unset($_SESSION['reCustomerId']);
     unset($_SESSION['reStartDate']);
