@@ -2,7 +2,7 @@
 
 /**
 	Adapted from Hyphenator 1.0.2
-	https://code.google.com/p/hyphenator/
+	http://code.google.com/p/hyphenator/
 
 	Created by crymos at yandex dot ru
 	Вопросы по русскоязычным таблицам переноса отправлять на адрес.

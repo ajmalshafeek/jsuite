@@ -40,7 +40,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
 
 	if(isset($_POST['createInvoice'])){
-        print_r($_POST);
+
   //
 		$config=parse_ini_file(__DIR__."/../jsheetconfig.ini");
 		require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/query/invoiceSt.php");
@@ -182,7 +182,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 $itemCredit=preg_replace("/[^0-9\.]/", '', $itemCredit);
                 $itemDebit=preg_replace("/[^0-9\.]/", '', $itemDebit);
                 $itemPrice=preg_replace("/[^0-9\.]/", '', $itemPrice);
-
+                print_r($_POST);
 				$saveSucess=createInvoiceItemBreakdownSt($con,$invcId,$itemDate,$itemRef,$itemDescription,$itemCredit,$itemDebit,$itemPrice); // query/quotationitem.php
 			}
 		}

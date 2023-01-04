@@ -53,11 +53,28 @@ if (!isset($_SESSION)) {
         padding: 20px !important;
         height: fit-content !important;
     }
+	  .navbar-inverse {
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #3c8dbc;
+}
+	  div#pdf_div img {
+    border: 1px solid #6e6e6e !important;
+}
+	  .buttc a{
+	  color:black;color: white;background-color: #e91e63 !important;border-color: #e91e63 !important;margin:2px;}
+a.form-control.btn.buttc, a.form-control.btn.buttc:hover {
+    color: white;
+    background-color: #e91e63;
+    border-color: #e91e63;
   </style>
 </head>
 <body>
-<div class="container-fluid text-center bg-info">
-    <h1>Digital Sign</h1>
+<div class="container-fluid text-center" style="background-color: #6ac2f5;">
+    <h1>E-Sign</h1>
 </div>
 <?php
 $urlParams = explode('/', $_SERVER['REQUEST_URI']);
@@ -82,12 +99,12 @@ $activeButton=getButtonStatus($docId);
       <a class="navbar-brand" href="<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/'; ?>document_sign_sow/views/clientList.php">List</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav" style="background-color: #000;">
+        <ul class="nav navbar-nav">
 
 
-           <li class="active"><a href="javacript:void(0)"  class="form-control btn ct-btn-big" onclick="save_pdf_data()">save</a></li>
+           <li class="active"><a href="javacript:void(0)"  class="form-control btn ct-btn-big buttc" onclick="save_pdf_data()">save</a></li>
             <li class="active"><a href="#"><input type="file"  class="form-control" name="file" id="file" required ></a></li>
-            <li class="active"><a href="javacript:void(0)"  class="form-control btn" onclick="upload_stamp()">Upload Stamp</a></li>
+            <li class="active"><a href="javacript:void(0)"  class="form-control btn buttc" onclick="upload_stamp()">Upload Stamp</a></li>
         </ul>
 
     </div>

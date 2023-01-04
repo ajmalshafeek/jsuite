@@ -275,7 +275,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/reg
                         <p><input type="tel" placeholder="Phone" oninput="this.className = ''" name="clientContactNo"></p>
                     </div>
                     <div class="tab">Company Details:
-                        <p><input type="text" placeholder="Company Name" name="company"  class="company"  required="false" /></p>
+                        <p><input type="text" placeholder="Company Name" name="company"  class="company"  required="false" />
+                            GK Future Client</p>
                         <p><input type="text" placeholder="Business Type" name="business"  class="business"  required="false" /></p>
                         <p><input type="text" placeholder="Registration No" name="register"  class="register"  required="false" /></p>
 
@@ -495,7 +496,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/reg
     <script>
         $(document).ready(function(){
             $("#myModal").modal('show');
-
+            $(".closed").click(function () {
+                $("#myModal").modal("hide");
+            });
+            $(".close").click(function () {
+                $("#myModal").modal("hide");
+            });
         });
     </script>
     <!-- Modal -->
@@ -580,6 +586,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/reg
             // If a field is empty...
             if (y[i].value == "" && y[i].className!="fax" &&
                 y[i].value == "" && y[i].className!="business" &&
+                y[i].value == "" && y[i].className!="company" &&
                 y[i].value == "" && y[i].className!="register" &&
                 y[i].value == "" && y[i].className!="incorp" &&
                 y[i].value == "" && y[i].className!="financialYear" &&
@@ -606,6 +613,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/reg
                 }
             }
         }
+
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
             document.getElementsByClassName("step")[currentTab].className += " finish";

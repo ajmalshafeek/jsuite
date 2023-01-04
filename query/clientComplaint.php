@@ -169,6 +169,89 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/query/genFunc.php");
 
 		return $dataList;
 	}
+	function fetchClientViewComplainList($con,$picName,$occuredDate,$createdDate,$createdBy,$status,$companyId,$orgId){
+		$dataList=array();
+		$query="";
+		$paramType="";
+		$paramList = array();
+		if(isset($_SESSION['orgType'])&&$_SESSION['orgType']==6){
+			$query="SELECT clientcomplaint.* FROM clientcomplaint JOIN telecom_service ON  1=1 AND telecom_service.cid=clientcomplaint.id ";
+
+		if($picName!=null){
+			$query.="AND clientcomplaint.picName=? ";
+			$paramList[]=$picName;
+		}
+
+		if($occuredDate!=null){
+			$query.="AND clientcomplaint.occuredDate=? ";
+			$paramList[]=$occuredDate;
+		}
+
+		if($createdDate!=null){
+			$query.="AND clientcomplaint.createdDate=? ";
+			$paramList[]=$createdDate;
+		}
+
+		if($createdBy!=null){
+			$query.="AND clientcomplaint.createdBy=? ";
+			$paramList[]=$createdBy;
+		}
+		if($companyId!=null){
+			$query.="AND clientcomplaint.companyId=? ";
+			$paramList[]=$companyId;
+		}
+
+		if($orgId!=null){
+			$query.="AND clientcomplaint.orgId=? ";
+			$paramList[]=$orgId;
+		}
+		$query.=" ORDER BY clientcomplaint.createdDate DESC, clientcomplaint.messageStatus ASC ";
+	}else{
+		$query="SELECT * FROM clientcomplaint WHERE 1=1 ";
+
+		if($picName!=null){
+			$query.="AND picName=? ";
+			$paramList[]=$picName;
+		}
+
+		if($occuredDate!=null){
+			$query.="AND occuredDate=? ";
+			$paramList[]=$occuredDate;
+		}
+
+		if($createdDate!=null){
+			$query.="AND createdDate=? ";
+			$paramList[]=$createdDate;
+		}
+
+		if($createdBy!=null){
+			$query.="AND createdBy=? ";
+			$paramList[]=$createdBy;
+		}
+		if($companyId!=null){
+			$query.="AND companyId=? ";
+			$paramList[]=$companyId;
+		}
+
+		if($orgId!=null){
+			$query.="AND orgId=? ";
+			$paramList[]=$orgId;
+		}
+		$query.=" ORDER BY createdDate DESC, messageStatus ASC ";
+	}
+
+		$stmt=mysqli_prepare($con,$query);
+		DynamicBindVariables($stmt, $paramList);
+
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+		while($row=$result->fetch_assoc()){
+			$dataList[]=$row;
+		}
+		mysqli_stmt_close($stmt);
+
+		return $dataList;
+	}
 
 	function fetchUnresolvedComplainList($con,$picName,$occuredDate,$createdDate,$createdBy,$companyId,$orgId){
 		$dataList=array();

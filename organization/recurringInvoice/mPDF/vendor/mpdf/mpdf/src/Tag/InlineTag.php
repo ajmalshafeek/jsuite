@@ -79,7 +79,7 @@ abstract class InlineTag extends Tag
 		}
 
 		// mPDF 6 bidi
-		// cf. https://www.w3.org/TR/css3-writing-modes/#unicode-bidi
+		// cf. http://www.w3.org/TR/css3-writing-modes/#unicode-bidi
 		if ($tag === 'BDO') {
 			if (isset($attr['DIR']) && strtolower($attr['DIR']) === 'rtl') {
 				$bdf = 0x202E;

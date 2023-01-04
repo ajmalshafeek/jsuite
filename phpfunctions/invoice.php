@@ -147,7 +147,6 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 		$pdfFooterList=fetchPdfFooterList($con,$footerId,$orgId);
 		$content=$pdfFooterList[0]['content'];
 
-
 		$invoiceDate=date('Y-m-d');
 
 		$total=preg_replace("/[^0-9\.]/", '', $total);
@@ -192,17 +191,19 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
 		$invoicePDF->output("$invoiceDirectory/$invoiceNumber(".strtotime($createdDate).").pdf",'F'); // save pdf to server // html2pdf method
 //test
-			print_r("<br />after create invoice pdf".$dDate);
 
 		$_SESSION['invoiceNumber']=$invoiceNumber;
 if($recurring==0) {
     header("Location: https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/organization/invoice/mailInvoice.php");
-} else if($saveSucess&&$recurring==1){
+    die();
+} else if($saveSucess && $recurring==1){
     $_SESSION['reInvoiceid']=$invcId;
     $_SESSION['reCustomerId']=$customerId;
     $_SESSION['reStartDate']=$recurringDate;
     $_SESSION['recurring']=$recurringBy;
+
     header("Location: https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/organization/recurringInvoice/scheduler-insert.php");
+    die();
         }
 		//return $quotationNumber;
 	}
@@ -321,7 +322,6 @@ if($recurring==0) {
 		$_SESSION['invoiceNumber']=$invoiceNumber;
 
 		header("Location:  https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/organization/invoice/mailInvoice.php");
-
 
 	}
 
@@ -531,6 +531,186 @@ if($recurring==0) {
 
 		return $table;
 	}
+
+function recurringInvoiceListTable($invoiceId_,$customerName_,$jobId_,$invoiceNo_,$customerId_,$createdBy_,
+                                   $dateFrom_,$dateTo_,$status_,$orgId_){
+    $config=parse_ini_file(__DIR__."/../jsheetconfig.ini");
+    require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/query/invoice.php");
+
+    $con=connectDb();
+
+    $invoiceId=$invoiceId_;
+    $customerName=$customerName_;
+    $jobId=$jobId_;
+    $invoiceNo=$invoiceNo_;
+    $customerId=$customerId_;
+    $createdBy=$createdBy_;
+    $dateFrom=$dateFrom_;
+    $dateTo=$dateTo_;
+    $status=$status_;
+    $orgId=$orgId_;
+    $recurring=1;
+
+
+    $invoiceList=fetchRecurringInvoiceList($con,$invoiceId,$customerName,$jobId,$invoiceNo,$customerId,
+        $createdBy,$dateFrom,$dateTo,$status,$recurring,$orgId);
+    //	echo sizeof($quotaionList);
+
+    $table="";
+    $table.='<table class="table table-hover table-bordered table-" id="invoiceListTable"
+		width="100%" cellspacing="0" role="grid" style="width: 100%;">';
+    $table.="<thead class='thead-dark'>";
+
+    $table.="<tr>";
+    $table.="<th style='width:5%' ></th>";
+    $table.="<th style='width:20%' scope='col'>Date</th>";
+    $table.="<th scope='col'>Invoice</th>";
+    $table.="<th scope='col'>Created By</th>";
+    $table.="<th scope='col'>Customer Name</th>";
+    $table.="<th scope='col'>Invoiced Amount</th>";
+    $table.="<th scope='col'>Status</th>";
+
+    $table.="</tr>";
+
+    $table.="</thead>";
+
+    $table.="<tbody>";
+
+    foreach($invoiceList as $invoice){
+        $table.="<tr data-value='".$invoice['fileName']."'> ";
+        $table.='<td style="text-align: center; vertical-align: middle;">
+						<input type="checkbox"  value="'.str_pad($invoice['fileName'],10,"0",STR_PAD_LEFT).'" name="checkedRow[]" />
+					</td>';
+        $table.="<td  >".date('D d-M-y H:i:s A',strtotime($invoice['createdDate']))."</td>";
+        $table.="<td  >".str_pad($invoice['invoiceNo'],10,"0",STR_PAD_LEFT)."</td>";
+        $table.="<td >".$invoice['name']."</td>";
+        $table.="<td >".$invoice['customerName']."</td>";
+        $table.="<td  >RM &nbsp".number_format($invoice['total'],2)."</td>";
+        $table.="<td  >";
+
+
+        if($invoice['status']==1){
+            $table.='<div class="alert alert-danger" role="alert" style="text-align:center">
+                <strong>UNPAID</strong>
+                </div>';}
+        else if($invoice['status']==0){
+            $table.='<div class="alert alert-success" role="alert" style="text-align:center">
+              <strong>PAID</strong>
+             </div>';
+        }else if($invoice['invalidate']==1){
+            $table.='<div class="alert alert-warning" role="alert" style="text-align:center">
+                <strong>INVALID</strong>
+                </div>';
+        }
+
+        else {
+            $table.='<div class="alert alert-primary" role="alert" style="text-align:center">
+          <strong>RESTRICTED</strong>
+         </div>';
+        }
+
+        $table.="</td>";
+
+
+        $table.="</tr>";
+
+    }
+    $table.="</tbody>";
+    $table.="</table>";
+
+
+    return $table;
+}
+
+function recurringInvoiceClientListTable($invoiceId_,$customerName_,$jobId_,$invoiceNo_,$customerId_,$createdBy_,
+                                         $dateFrom_,$dateTo_,$status_,$orgId_){
+    $config=parse_ini_file(__DIR__."/../jsheetconfig.ini");
+    require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/query/invoice.php");
+
+    $con=connectDb();
+
+    $invoiceId=$invoiceId_;
+    $customerName=$customerName_;
+    $jobId=$jobId_;
+    $invoiceNo=$invoiceNo_;
+    $customerId=$customerId_;
+    $createdBy=$createdBy_;
+    $dateFrom=$dateFrom_;
+    $dateTo=$dateTo_;
+    $status=$status_;
+    $orgId=$orgId_;
+    $recurring=1;
+
+
+    $invoiceList=fetchRecurringInvoiceList($con,$invoiceId,$customerName,$jobId,$invoiceNo,$customerId,
+        $createdBy,$dateFrom,$dateTo,$status,$recurring,$orgId);
+    //	echo sizeof($quotaionList);
+
+    $table="";
+    $table.='<table class="table table-hover table-bordered table-" id="invoiceListTable"
+		width="100%" cellspacing="0" role="grid" style="width: 100%;">';
+    $table.="<thead class='thead-dark'>";
+
+    $table.="<tr>";
+    $table.="<th style='width:5%' ></th>";
+    $table.="<th style='width:20%' scope='col'>Date</th>";
+    $table.="<th scope='col'>Invoice</th>";
+    $table.="<th scope='col'>Created By</th>";
+    $table.="<th scope='col'>Customer Name</th>";
+    $table.="<th scope='col'>Invoiced Amount</th>";
+    $table.="<th scope='col'>Status</th>";
+
+    $table.="</tr>";
+
+    $table.="</thead>";
+
+    $table.="<tbody>";
+
+    foreach($invoiceList as $invoice){
+        $table.="<tr data-value='".$invoice['fileName']."'> ";
+        $table.='<td style="text-align: center; vertical-align: middle;">
+						<input type="checkbox"  value="'.str_pad($invoice['fileName'],10,"0",STR_PAD_LEFT).'" name="checkedRow[]" />
+					</td>';
+        $table.="<td  >".date('D d-M-y H:i:s A',strtotime($invoice['createdDate']))."</td>";
+        $table.="<td  >".str_pad($invoice['invoiceNo'],10,"0",STR_PAD_LEFT)."</td>";
+        $table.="<td >".$invoice['name']."</td>";
+        $table.="<td >".$invoice['customerName']."</td>";
+        $table.="<td  >RM &nbsp".number_format($invoice['total'],2)."</td>";
+        $table.="<td  >";
+
+
+        if($invoice['status']==1){
+            $table.='<div style="text-align:center">
+                <small><a href="https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/client/store/pay-bill.php?invoice='.$invoice['id'].'&amount='.$invoice['total'].'" class="btn btn-default paybill"  >Pay Now</a></small>
+                </div>';}
+        else if($invoice['status']==0){
+            $table.='<div class="alert alert-success" role="alert" style="text-align:center">
+              <strong>PAID</strong>
+             </div>';
+        }else if($invoice['invalidate']==1){
+            $table.='<div class="alert alert-warning" role="alert" style="text-align:center">
+                <strong>INVALID</strong>
+                </div>';
+        }
+
+        else {
+            $table.='<div class="alert alert-primary" role="alert" style="text-align:center">
+          <strong>RESTRICTED</strong>
+         </div>';
+        }
+
+        $table.="</td>";
+
+
+        $table.="</tr>";
+
+    }
+    $table.="</tbody>";
+    $table.="</table>";
+
+
+    return $table;
+}
 
 	function getInvoiceDetailsByInvNo($invoiceNo_){
 		$con=connectDb();

@@ -161,7 +161,7 @@ $(document).ready(function() {
       console.log(fileName);
 
       //var path=<?php echo "'https://".$_SERVER['HTTP_HOST'].$config['appRoot']."'"; ?>+'/resources/'+<?php echo $_SESSION['orgId']; ?>+'/invoice/';
-        var path=<?php echo "'https://".$_SERVER['HTTP_HOST'].$config['appRoot'].'/resources/'.$_SESSION['orgId'].'/InvoiceST/'."'"; ?>;
+        var path=<?php echo "'https://".$_SERVER['HTTP_HOST'].$config['appRoot'].'/resources/'.$_SESSION['orgId'].'/invoiceST/'."'"; ?>;
       var invPDF=path+fileName+".pdf";
       $('#invoicePDFModalTitle').text('INVOICE # '+"SMU"+invNo.substring(4,10));
       //$('#invoicePDFEmbed').prop('src', invPDF);

@@ -1411,7 +1411,7 @@ class Ucdn
 		[26, 0, 0, 0, 2, 0, 32],
 	];
 
-	/* Mirror unicode characters. Bidirectional Algorithm, at https://www.unicode.org/unicode/reports/tr9/  */
+	/* Mirror unicode characters. Bidirectional Algorithm, at http://www.unicode.org/unicode/reports/tr9/  */
 
 	public static $mirror_pairs = [
 		40 => 41,

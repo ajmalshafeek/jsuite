@@ -253,6 +253,76 @@ function deleteInvoice($con,$invoiceNo)
 
 		return $dataList;
 	}
+    function fetchRecurringInvoiceList($con,$InvoiceId,$customerName,$jobId,$invoiceNo,$customerId,
+                                   $createdBy,$dateFrom,$dateTo,$status,$recurring,$orgId){
+    $dataList=array();
+    $query="SELECT * , (SELECT name FROM `organizationuser` WHERE invoice.createdBy=id) as name FROM invoice WHERE 1=1 ";
+    $paramType="";
+    $paramList = array();
+
+    if($InvoiceId!==null){
+
+        $query.="AND id=? ";
+        $paramList[]=$InvoiceId;
+
+    }
+
+    if($customerName!=null){
+        $query.="AND customerName=? ";
+        $paramList[]=$customerName;
+    }
+
+    if($jobId!==null){
+        $query.="AND jobId=? ";
+        $paramList[]=$jobId;
+    }
+
+    if($invoiceNo!==null){
+        $query.="AND invoiceNo=? ";
+        $paramList[]=$invoiceNo;
+    }
+    if($customerId!==null){
+        $query.="AND customerId=? ";
+        $paramList[]=$customerId;
+    }
+    if($createdBy!==null){
+        $query.="AND createdBy=? ";
+        $paramList[]=$createdBy;
+    }
+    if($dateFrom!==null && $dateTo !==null){
+        $query.="AND createdDate between ? AND ? ";
+        $paramList[]=$dateFrom;
+        $paramList[]=$dateTo;
+
+    }
+    if($status!==null){
+        $query.="AND status=? ";
+        $paramList[]=$status;
+
+    }
+    if($orgId!==null){
+        $query.="AND orgId=? ";
+        $paramList[]=$orgId;
+    }
+    if($recurring!==null){
+        $query.="AND isrecurring=? ";
+        $paramList[]=$recurring;
+    }
+
+    $stmt=mysqli_prepare($con,$query);
+    DynamicBindVariables($stmt, $paramList);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    while($row=$result->fetch_assoc()){
+        $dataList[]=$row;
+
+    }
+    mysqli_stmt_close($stmt);
+
+    return $dataList;
+}
 
 	function fetchInvoiceListValid($con,$InvoiceId,$customerName,$jobId,$invoiceNo,$customerId,
 	$createdBy,$dateFrom,$dateTo,$status,$orgId){

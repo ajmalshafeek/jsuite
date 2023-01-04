@@ -8,9 +8,9 @@ namespace Mpdf\Gif;
  * All Rights Reserved
  *
  * This file can be freely copied, distributed, modified, updated by anyone under the only
- * condition to leave the original address (Yamasoft, https://www.yamasoft.com) and this header.
+ * condition to leave the original address (Yamasoft, http://www.yamasoft.com) and this header.
  *
- * @link https://www.yamasoft.com
+ * @link http://www.yamasoft.com
  */
 class Lzw
 {

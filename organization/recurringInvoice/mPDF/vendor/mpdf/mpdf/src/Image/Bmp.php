@@ -20,7 +20,7 @@ class Bmp
 	public function _getBMPimage($data, $file)
 	{
 		// Adapted from script by Valentin Schmidt
-		// https://staff.dasdeck.de/valentin/fpdf/fpdf_bmp/
+		// http://staff.dasdeck.de/valentin/fpdf/fpdf_bmp/
 		$bfOffBits = $this->_fourbytes2int_le(substr($data, 10, 4));
 		$width = $this->_fourbytes2int_le(substr($data, 18, 4));
 		$height = $this->_fourbytes2int_le(substr($data, 22, 4));
@@ -184,7 +184,7 @@ class Bmp
 	/**
 	 * Decoder for RLE8 compression in windows bitmaps
 	 *
-	 * @see https://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
+	 * @see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
 	 * @param $str
 	 * @param $width
 	 * @return string
@@ -233,7 +233,7 @@ class Bmp
 	/**
 	 * Decoder for RLE4 compression in windows bitmaps
 	 *
-	 * @see https://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
+	 * @see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
 	 * @param $str
 	 * @param $width
 	 * @return string

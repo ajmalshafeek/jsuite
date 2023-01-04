@@ -158,6 +158,7 @@ $orgAdminPages = array(
   "/organization/recurringInvoice/get-invoice.php",
   "/organization/recurringInvoice/db.php",
   "/organization/recurringInvoice/createRecurringInvoice.php",
+  "/organization/recurringInvoice/viewRecurringInvoice.php",
 
   "/organization/invoice/viewInvoice.php",
   "/organization/setting/qiSetting.php",
@@ -359,7 +360,13 @@ $clientStore = array(
   "/client/pdfSign/pdfList.php",
   "/client/pdfSign/pdf.php",
   "/client/pdfSign/signPDF.php",
-  "/client/pdfSign/viewPDF.php"
+  "/client/pdfSign/viewPDF.php",
+    "/client/store/pay-bill.php",
+    "/client/store/recurring-invoice.php",
+  "/client/complaint/makeComplaint.php",
+  "/client/complaint/viewComplaint.php",
+  "/client/request/makeRequest.php",
+  "/client/request/viewRequest.php",
 );
 
 if (isOrganization() == true) {

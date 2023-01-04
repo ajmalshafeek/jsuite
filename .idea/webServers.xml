@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5e17efa2-fa34-4756-a272-1488b6172900" name="devgk.jsuitecloud.com" url="http://110.4.47.212">
+        <fileTransfer rootFolder="/httpdocs" host="110.4.47.212" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="6454ab2f-7b62-40a9-94da-091478d5a654" name="gkassociates.jsuitecloud.com" url="http://110.4.47.212">
+        <fileTransfer rootFolder="/httpdocs" host="110.4.47.212" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="744d5d92-3660-44af-890a-56cf1efe96ad" name="smu.smartoffice.my" url="http://156.67.222.140">
+        <fileTransfer rootFolder="/public_html/smu" host="156.67.222.140" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="36aff887-4376-4208-a5e2-0250eac95b6a" name="gk.jsuitecloud.com" url="http://110.4.47.212">
+        <fileTransfer rootFolder="/httpdocs" host="110.4.47.212" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

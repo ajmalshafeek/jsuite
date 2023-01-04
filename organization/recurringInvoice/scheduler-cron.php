@@ -1,18 +1,26 @@
 <?php
-
-//if(!isset($_SESSION))
-//{
- //	session_name($config['sessionName']);
-//	session_start();
-//}
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 $config=parse_ini_file(__DIR__."/jsheetconfig.ini");
 //date_default_timezone_set("Asia/Kuala_Lumpur");
 //require(__DIR__.'/mPDF/vendor/autoload.php');
-require $_SERVER['DOCUMENT_ROOT'].$config['appRoot'].'/external/mPDF/vendor/autoload.php';
+
+
+
+
+
+require './mPDF/vendor/autoload.php';
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 
 include_once ("db.php");
-
+$orgn="";
 $today_date=date('Y-m-d');
 //$sql = "SELECT * FROM `invoice_scheduler` where  schedule_date= '$today_date' AND status=0";
 $sql = "SELECT * FROM `invoice_scheduler` where status=0";
@@ -33,9 +41,6 @@ while($row = mysqli_fetch_assoc($result)){
 		$invoice = "SELECT * FROM `invoice` where  id= ".$row1['invoice_id']."";
 		$invoice_details = mysqli_query($con, $invoice);
 		$ind = $invoice_details->fetch_assoc();
-        print("<br />");
-        print_r($ind);
-        print("<br />");
 
         if( dateEqGtCompare($ind['enddate'],$today_date) && dateEqCompare($row['next'],$today_date) ){
         if(strcasecmp($row['recurring'],"Month")==0){
@@ -46,8 +51,9 @@ while($row = mysqli_fetch_assoc($result)){
         }
 
         }
-    if($createInvoiceFunction==true) {
 
+    if($createInvoiceFunction==true) {
+   //echo "create invoice function"; 
     $invoice_mid = "SELECT MAX(id) as id FROM `invoice` where  1=1";
     $invoice_mxid = mysqli_query($con, $invoice_mid);
     $mxid = $invoice_mxid->fetch_assoc();
@@ -58,12 +64,12 @@ while($row = mysqli_fetch_assoc($result)){
     $orgn = $org_details->fetch_assoc();
 
     $duedate = date('Y-m-d', strtotime($today_date . ' + 10 days'));
-    $iquery = "insert into invoice (customerName,customerAddress,invoiceNo,customerId,attention,createdBy,createdDate,invoiceDate,total,dueDate,status,orgId,footerId,isrecurring);
+    $iquery = "insert into invoice (customerName,customerAddress,invoiceNo,customerId,attention,createdBy,createdDate,invoiceDate,total,dueDate,status,orgId,footerId,isrecurring)
 		values('" . $ind['customerName'] . "','" . $ind['customerAddress'] . "','" . $ninvoice_id . "','" . $ind['customerId'] . "','" . $ind['attention'] . "','" . $ind['createdBy'] . "','" . $today_date . "','" . $today_date . "','" . $ind['total'] . "','" . $duedate . "',1,'" . $config['orgId'] . "',1,0)";
-    //print_r($iquery);
+  //  print_r($iquery);exit;
     $iresult = mysqli_query($con, $iquery);
     $last_id = mysqli_insert_id($con);
-
+// print_r($iquery);exit;
     $invoice_citem = "SELECT * FROM `invoiceitem` where  invoiceId= '$ind[id]'";
     $invoice_citems = mysqli_query($con, $invoice_citem);
     while ($itemc = $invoice_citems->fetch_assoc()) {
@@ -232,6 +238,7 @@ while($row = mysqli_fetch_assoc($result)){
 //	$quotTable.=$style;
     $myOrLogo = "";
     $orgLogoSrc = 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/resources/' . $orgn['logoPath'] . '.png';
+
     if (@getimagesize($orgLogoSrc)) {
 
         $myOrLogo = '	<img  style="height:100px;max-width:272pt"  src="' . $orgLogoSrc . '" alt="logo" />';
@@ -393,13 +400,13 @@ while($row = mysqli_fetch_assoc($result)){
     $invoice_item = "SELECT * FROM `invoiceitem` where  invoiceId= '$ind[id]'";
     $invoice_items = mysqli_query($con, $invoice_item);
     while ($item = $invoice_items->fetch_assoc()) {
-//print_r($item);	
+    //print_r($item);
         $itemName = $item['itemName'];
         $itemDescription = $item['itemDescription'];
         $itemCost = $item['itemPrice'];
         $itemQty = $item['quantity'];
         $price = $item['total'];
-        $quotationTotalAmount += $price;
+        $quotationTotalAmount = (int)$price + (int)$quotationTotalAmount;
         $quotItemList .= '
 			<tr>
 				<td class="td-Item" valign="top">
@@ -500,13 +507,14 @@ while($row = mysqli_fetch_assoc($result)){
     //$html2pdf->writeHTML('test');
 
 
-    //$html2pdf->output();
+   // $html2pdf->output();
 
 
     //$dir = "C:/xampp/htdocs/jsoft/resources/2/invoice/";
     //$dir = 'https://'.$_SERVER['HTTP_HOST'].$config['appRoot'].'/resources/'.$quotConfig['orgId'].'/invoice/';
-    $dir = $_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . '/resources/' . $quotConfig['orgId'] . '/invoice/';
-
+   // $dir = $_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . '/resources/' . $quotConfig['orgId'] . '/invoice/';
+    $dir = $_SERVER['DOCUMENT_ROOT'] .'/resources/' . $quotConfig['orgId'] . '/invoice/';
+//echo $dir ;exit;
 
     ob_clean();
 
@@ -517,21 +525,22 @@ while($row = mysqli_fetch_assoc($result)){
     $filename = $ninvoice_id . '(' . date('Hmis') . ')';
     $filename1 = $filename . ".pdf";
 
-
-    $str = "UPDATE `invoice` SET  `fileName`='$filename' WHERE `id`='$last_id'";
-
+        // $pdfFileName = $_SERVER['DOCUMENT_ROOT'] . '/resources/' . $quotConfig['orgId'] . '/invoice/' .date("Y/M"). $filename;
+    // $str = "UPDATE `invoice` SET  `fileName`='$pdfFileName' WHERE `id`='$last_id'";
+	$str = "UPDATE `invoice` SET  `fileName`='$filename' WHERE `id`='$last_id'";
     $top_result1 = mysqli_query($con, $str);
 
 
-    $html2pdf->output($dir . $filename1, 'F');   // check
+    $html2pdf->output($dir . $filename1, 'F');   //check
+//    $html2pdf->output($dir . $filename1, \Mpdf\Output\Destination::FILE);   //check
     //return $html2pdf;
 
 
 //email content area
     $to = $cd['emailAddress'];
 //$to        = "chidhambaramc@gmail.com"; 
-    $from = "admin@jsoft.my";
-    $subject = "Invoice";
+    $from = "noreply@jcloud.my";
+    $subject = "Invoice : ".$ninvoice_id.",  $myOrgName";
     $body = "Dear $attention,<br/><br/>
 				Great Day!!!<br/>Please find your attachment invoice. We appreciate your prompt payment.<br/><br/>
 				<b>Invoice Number:</b> $ninvoice_id<br/>
@@ -545,44 +554,52 @@ while($row = mysqli_fetch_assoc($result)){
 
 
 //$pdfLocation = "C:/xampp/htdocs/jsoft/resources/2/invoice/".$filename1;
-    $pdfLocation = $_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . '/resources/' . $quotConfig['orgId'] . '/invoice/' . $filename1;
+    //$pdfLocation = $_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . '/resources/' . $quotConfig['orgId'] . '/invoice/' . $filename1;
+    //$pdfLocation = $_SERVER['DOCUMENT_ROOT'] . '/resources/' . $quotConfig['orgId'] . '/invoice/' .date("Y/M"). $filename1;
+    $pdfLocation = $_SERVER['DOCUMENT_ROOT'] . '/resources/' . $quotConfig['orgId'] . '/invoice/' .$filename1;
+
     $pdfName = $filename1;
     $filetype = "application/pdf";
 
-    $eol = PHP_EOL;
-    $semi_rand = md5(time());
-    $mime_boundary = "==Multipart_Boundary_$semi_rand";
-    $headers = "From: $from $eol $myOrgName $eol" .
-        "Content-Type: multipart/mixed;$eol boundary=\"$mime_boundary\"";
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = 'mail.jcloud.my';                     //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = 'noreply@jcloud.my';                     //SMTP username
+            $mail->Password   = 'UzWBebPgU3G^';                               //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $mail->Port       = 465;
+
+            //Recipients
+            $mail->setFrom($from, 'JSuite Cloud');
+            $mail->addAddress($to, 'User');
+//Attachments
+            $mail->addAttachment($pdfLocation);         //Add attachments
+            $mail->addAttachment( $_SERVER['DOCUMENT_ROOT'] .  '/resources/' . $orgn['logoPath'] . '.png', 'company logo');    //Optional name
 
 
-    $message = "--$mime_boundary$eol" .
-        "Content-Type: text/html; charset=\"iso-8859-1\"$eol" .
-        "Content-Transfer-Encoding: 7bit$eol$eol$body$eol";
 
-
-    $file = fopen($pdfLocation, 'rb');
-    $data = fread($file, filesize($pdfLocation));
-    fclose($file);
-    $pdf = chunk_split(base64_encode($data));
-
-    $message .= "--$mime_boundary$eol" .
-        "Content-Type: $filetype;$eol name=\"$pdfName\"$eol" .
-        "Content-Disposition: attachment;$eol filename=\"$pdfName\"$eol" .
-        "Content-Transfer-Encoding: base64$eol$eol$pdf$eol--$mime_boundary--";
-
-    if (mail($to, $subject, $message, $headers)) {
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
+            $mail->send();
+        //    if (@mail($to, $subject, $message, $headers)) {
 
         $str = "UPDATE `invoice_scheduler` SET  `next`='".$next."' WHERE `id`='" . $row['id'] . "'";
         mysqli_query($con, $str);
         //print_r($body);
-        echo "The email was sent.";
-    } else {
-        echo "There was an error sending the mail.";
-    }
-
+        echo 'Message has been sent';
+         } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
 //end email content area
-}
+}else{
+        echo "Already invoice created";
+    }
 	}
 	
 }
@@ -595,7 +612,7 @@ function dateEqCompare($var,$var1){
         if((int)$date[1]==(int)$date1[1]){
             if((int)$date[2]==(int)$date1[2]){
                 $re=true;
-                print_r("eq".$var);
+                print_r("eq ".$var);
             }
         }
     }
@@ -614,6 +631,7 @@ function dateEqGtCompare($var,$var1){
         elseif((int)$date[1]==(int)$date1[1]){
             if((int)$date[2]>=(int)$date1[2]){
                 $re=true;
+                print_r("eq1 ".$var);
             }
         }
     }

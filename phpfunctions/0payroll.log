@@ -949,3 +949,94 @@ Voucher: Array
     [paymentVoucher] => 
     [deduction] => 
 )
+PayslipId: 11
+Voucher: Array
+(
+    [id] => 11
+    [monthText] => January
+    [staffId] => 1
+    [staffName] => chairman
+    [employeeId] => 000001
+    [designation] => Service Engineer
+    [department] => 
+    [salaryMonth] => 100.00
+    [epf] => 9
+    [epfPerc] => 9
+    [socso] => 10.00
+    [pcb] => 10.00
+    [allowance] => 10.00
+    [claims] => 10.00
+    [commissions] => 10.00
+    [ot] => 10.00
+    [bonus] => 10.00
+    [totalEarning] => 150
+    [totalDeduction] => 91.00
+    [datePayment] => 2022-12-27
+    [bankName] => Maybank 
+    [bankAcc] => 321654
+    [netPay] => 59.00
+    [payslip] => P1581252.pdf
+    [paymentVoucher] => 
+    [deduction] => 
+)
+PayslipId: 12
+Voucher: Array
+(
+    [id] => 12
+    [monthText] => April
+    [staffId] => 1
+    [staffName] => chairman
+    [employeeId] => 000001
+    [designation] => Service Engineer
+    [department] => 
+    [salaryMonth] => 100.00
+    [epf] => 9
+    [epfPerc] => 9
+    [socso] => 10.00
+    [pcb] => 10.00
+    [allowance] => 0
+    [claims] => 0
+    [commissions] => 0
+    [ot] => 0
+    [bonus] => 0
+    [totalEarning] => 100
+    [totalDeduction] => 41.00
+    [datePayment] => 2022-12-27
+    [bankName] => Maybank 
+    [bankAcc] => 321654
+    [netPay] => 59.00
+    [payslip] => P2474958.pdf
+    [paymentVoucher] => 
+    [deduction] => 
+)
+
+Voucher: Array
+(
+    [id] => 12
+    [monthText] => April
+    [staffId] => 1
+    [staffName] => chairman
+    [employeeId] => 000001
+    [designation] => Service Engineer
+    [department] => 
+    [salaryMonth] => 100.00
+    [epf] => 9
+    [epfPerc] => 9
+    [socso] => 10.00
+    [pcb] => 10.00
+    [allowance] => 0
+    [claims] => 0
+    [commissions] => 0
+    [ot] => 0
+    [bonus] => 0
+    [totalEarning] => 100
+    [totalDeduction] => 41.00
+    [datePayment] => 2022-12-27
+    [bankName] => Maybank 
+    [bankAcc] => 321654
+    [netPay] => 59.00
+    [payslip] => P2474958.pdf
+    [paymentVoucher] => 
+    [deduction] => 
+)
+PayslipId: 12

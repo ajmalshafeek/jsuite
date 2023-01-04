@@ -182,7 +182,7 @@ function get_pdf_listings()
 {
 
     $mysqli = database_connection();
-    $sql = $mysqli->query("SELECT *,(SELECT name FROM organizationuser WHERE `id`=`uploadby`) as uploader, (SELECT name FROM clientcompany WHERE `id`=`user`) as assigned, ( CASE WHEN `signby`> 0 THEN (SELECT name FROM client_signatory WHERE `cid`=`user`) ELSE (SELECT name FROM clientcompany WHERE `id`=`user`) END) as sing FROM `tbl_files` ORDER BY `id` DESC");
+    $sql = $mysqli->query("SELECT *,(SELECT name FROM organizationuser WHERE `id`=`uploadby`) as uploader, (SELECT name FROM clientcompany WHERE `id`=`user`) as assigned, ( CASE WHEN `signby`> 0 THEN (SELECT name FROM client_signatory WHERE `cid`=`user` AND `id`=`signby`) ELSE (SELECT name FROM clientcompany WHERE `id`=`user`) END) as sing FROM `tbl_files` ORDER BY `id` DESC");
 
     $data_arr = array();
     while ($row =  $sql->fetch_array(MYSQLI_NUM)) {

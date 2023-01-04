@@ -3,10 +3,8 @@
 namespace Mpdf\Config;
 
 use Mpdf\Css\DefaultCss;
-
 use Mpdf\Language\LanguageToFont;
 use Mpdf\Language\ScriptToLanguage;
-
 use Mpdf\Ucdn;
 
 class ConfigVariables
@@ -295,6 +293,10 @@ class ConfigVariables
 			// Default dpi to output images if size not defined
 			// See also above "dpi"
 			'img_dpi' => 96,
+			// Specify whitelisted PHP streams to be used for images
+			// Useful to add custom streams like `s3`
+			// Note: for security reasons the `phar` stream cannot be used @see https://github.com/mpdf/mpdf/issues/949
+			'whitelistStreamWrappers' => ['http', 'https', 'file'],
 
 			// TEXT SPACING & JUSTIFICATION
 
@@ -430,7 +432,7 @@ class ConfigVariables
 			// font-family, font-size, font-weight, font-variant, font-style, opacity, text-anchor
 			'svgClasses' => false,
 
-			// Default values if no style sheet offered	(cf. https://www.w3.org/TR/CSS21/sample.html)
+			// Default values if no style sheet offered	(cf. http://www.w3.org/TR/CSS21/sample.html)
 			'defaultCSS' => DefaultCss::$definition,
 			'defaultCssFile' => __DIR__ . '/../../data/mpdf.css',
 
@@ -451,6 +453,8 @@ class ConfigVariables
 
 			'tempDir' => __DIR__ . '/../../tmp',
 
+			'cacheCleanupInterval' => 3600,
+
 			'allowAnnotationFiles' => false,
 
 			'hyphenationDictionaryFile' => __DIR__ . '/../../data/patterns/dictionary.txt',
@@ -469,14 +473,14 @@ class ConfigVariables
 			/**
 			 * References for CJK line-breaking
 			 *
-			 * https://en.wikipedia.org/wiki/Line_breaking_rules_in_East_Asian_languages
-			 * https://msdn.microsoft.com/en-us/goglobal/bb688158.aspx - listed using charsets
-			 * Word wrapping in other langauges - https://msdn.microsoft.com/en-us/goglobal/bb688158.aspx
-			 * Word wrapping in Japanese/Korean - https://en.wikipedia.org/wiki/Kinsoku_shori
-			 * Unicode character types: https://unicode.org/reports/tr14/
-			 * https://xml.ascc.net/en/utf-8/faq/zhl10n-faq-xsl.html#qb1
+			 * http://en.wikipedia.org/wiki/Line_breaking_rules_in_East_Asian_languages
+			 * http://msdn.microsoft.com/en-us/goglobal/bb688158.aspx - listed using charsets
+			 * Word wrapping in other langauges - http://msdn.microsoft.com/en-us/goglobal/bb688158.aspx
+			 * Word wrapping in Japanese/Korean - http://en.wikipedia.org/wiki/Kinsoku_shori
+			 * Unicode character types: http://unicode.org/reports/tr14/
+			 * http://xml.ascc.net/en/utf-8/faq/zhl10n-faq-xsl.html#qb1
 			 * ECMA-376 4th edition Part 1
-			 * https://www.ecma-international.org/publications/standards/Ecma-376.htm
+			 * http://www.ecma-international.org/publications/standards/Ecma-376.htm
 			 */
 
 			// Leading characters - Not allowed at end of line
@@ -485,7 +489,7 @@ class ConfigVariables
 			// Following characters - Not allowed at start
 			'CJKfollowing' => "!%\),\.:,>\?\]\}\x{00a2}\x{00a8}\x{00b0}\x{00b7}\x{00bb}\x{02c7}\x{02c9}\x{2010}\x{2013}-\x{2016}\x{2019}\x{201d}-\x{201f}\x{2020}-\x{2022}\x{2025}-\x{2027}\x{2030}\x{2032}\x{2033}\x{203a}\x{203c}\x{2047}-\x{2049}\x{2103}\x{2236}\x{2574}\x{3001}-\x{3003}\x{3005}\x{3006}\x{3009}\x{300b}\x{300d}\x{300f}\x{3011}\x{3015}\x{3017}\x{3019}\x{301c}\x{301e}\x{301f}\x{303b}\x{3041}\x{3043}\x{3045}\x{3047}\x{3049}\x{3063}\x{3083}\x{3085}\x{3087}\x{308e}\x{3095}\x{3096}\x{309b}-\x{309e}\x{30a0}\x{30a1}\x{30a3}\x{30a5}\x{30a7}\x{30a9}\x{30c3}\x{30e3}\x{30e5}\x{30e7}\x{30ee}\x{30f5}\x{30f6}\x{30fb}-\x{30fd}\x{30fe}\x{31f0}-\x{31ff}\x{fe30}\x{fe31}-\x{fe34}\x{fe36}\x{fe38}\x{fe3a}\x{fe3c}\x{fe3e}\x{fe40}\x{fe42}\x{fe44}\x{fe4f}\x{fe50}-\x{fe58}\x{fe5a}\x{fe5c}-\x{fe5e}\x{ff01}\x{ff02}\x{ff05}\x{ff07}\x{ff09}\x{ff0c}\x{ff0e}\x{ff1a}\x{ff1b}\x{ff1f}\x{ff3d}\x{ff40}\x{ff5c}-\x{ff5e}\x{ff60}\x{ff61}\x{ff63}-\x{ff65}\x{ff9e}\x{ff9f}\x{ffe0}",
 
-			// Characters which are allowed to overflow the right margin (from CSS3 https://www.w3.org/TR/2012/WD-css3-text-20120814/#hanging-punctuation)
+			// Characters which are allowed to overflow the right margin (from CSS3 http://www.w3.org/TR/2012/WD-css3-text-20120814/#hanging-punctuation)
 			'CJKoverflow' => "\.,\x{ff61}\x{ff64}\x{3001}\x{3002}\x{fe50}-\x{fe52}\x{ff0c}\x{ff0e}",
 
 			// Used for preventing letter-spacing in cursive scripts
@@ -506,7 +510,14 @@ class ConfigVariables
 			// cURL options
 			'curlFollowLocation' => false,
 			'curlAllowUnsafeSslRequests' => false,
+			'curlCaCertificate' => '',
 			'curlTimeout' => 5,
+			'curlExecutionTimeout' => null,
+			'curlProxy' => null,
+			'curlProxyAuth' => null,
+			'curlUserAgent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1',
+
+			'exposeVersion' => true,
 		];
 	}
 

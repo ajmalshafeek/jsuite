@@ -23,10 +23,10 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 	{
 		$this->init($code, $length);
 
-		$this->data['lightmL'] = $leftMargin; // LEFT light margin =  x X-dim (https://www.gs1uk.org)
-		$this->data['lightmR'] = $rightMargin; // RIGHT light margin =  x X-dim (https://www.gs1uk.org)
-		$this->data['nom-X'] = $xDim; // Nominal value for X-dim in mm (https://www.gs1uk.org)
-		$this->data['nom-H'] = $barHeight; // Nominal bar height in mm incl. numerals (https://www.gs1uk.org)
+		$this->data['lightmL'] = $leftMargin; // LEFT light margin =  x X-dim (http://www.gs1uk.org)
+		$this->data['lightmR'] = $rightMargin; // RIGHT light margin =  x X-dim (http://www.gs1uk.org)
+		$this->data['nom-X'] = $xDim; // Nominal value for X-dim in mm (http://www.gs1uk.org)
+		$this->data['nom-H'] = $barHeight; // Nominal bar height in mm incl. numerals (http://www.gs1uk.org)
 	}
 
 	/**
@@ -35,6 +35,10 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 	 */
 	private function init($code, $length)
 	{
+		if (preg_match('/[\D]+/', $code)) {
+			throw new \Mpdf\Barcode\BarcodeException(sprintf('Invalid EAN UPC barcode value "%s"', $code));
+		}
+
 		$upce = false;
 		$checkdigit = false;
 
@@ -77,7 +81,7 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 			$checkdigit = $r;
 		} elseif ($r !== (int) $code[$dataLength]) {
 			// Wrong checkdigit
-			throw new \Mpdf\Barcode\BarcodeException('Invalid EAN UPC barcode value');
+			throw new \Mpdf\Barcode\BarcodeException(sprintf('Invalid EAN UPC barcode value "%s"', $code));
 		}
 
 		if ($length == 12) {
@@ -122,6 +126,7 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 					}
 				}
 			}
+
 			if ($invalidUpce) {
 				throw new \Mpdf\Barcode\BarcodeException('UPC-A cannot produce a valid UPC-E barcode');
 			}
@@ -209,7 +214,7 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 
 		if ($upce && isset($upceCode)) {
 			$bararray = ['code' => $upceCode, 'maxw' => 0, 'maxh' => 1, 'bcode' => []];
-			$p = $upceParities[$code{1}][$r];
+			$p = $upceParities[$code[1]][$r];
 			for ($i = 0; $i < 6; ++$i) {
 				$seq .= $codes[$p[$i]][$upceCode[$i]];
 			}
@@ -222,7 +227,7 @@ class EanUpc extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 					$seq .= $codes['A'][$code[$i]];
 				}
 			} else {
-				$p = $parities[$code{0}];
+				$p = $parities[$code[0]];
 				for ($i = 1; $i < $halfLen; ++$i) {
 					$seq .= $codes[$p[$i - 1]][$code[$i]];
 				}

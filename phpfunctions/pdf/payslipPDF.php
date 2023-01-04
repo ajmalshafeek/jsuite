@@ -43,10 +43,9 @@ function generatePayslipPDF(){
     $bodyEnd = "</body>";
     $htmlEnd = "</html>";
 
-
     $monthText = $_SESSION['monthText'];
     $staffName = $_SESSION['staffName'];
-    $employeeId = $_SESSION['employeeId'];
+    $employeeId = $_SESSION['staffId'];
     $designation = $_SESSION['designation'];
     $department = $_SESSION['department'];
     $salaryMonth = $_SESSION['salaryMonth'];
@@ -120,20 +119,20 @@ function generatePayslipPDF(){
         $ddisplay.="<p>".number_format($deduction,2)."</p>";
     }
 	if($allowance !=0){
-		$ndisplay.="<p>Allowance</p>";
+		$ndisplay.="<p>ALLOWANCE</p>";
 		$adisplay.="<p>".number_format($allowance,2)."</p>";
 		$edisplay.="<p>-</p>";
         $ddisplay.="<p>-</p>";
 	}
 	if($claims !=0){
-		$ndisplay.="<p>Claims</p>";
+		$ndisplay.="<p>CLAIMS</p>";
 		$adisplay.="<p>".number_format($claims,2)."</p>";
 		$edisplay.="<p>-</p>";
         $ddisplay.="<p>-</p>";
 		
 	}
 	if($commissions !=0){
-		$ndisplay.="<p>Commissions</p>";
+		$ndisplay.="<p>COMMISSIONS</p>";
 		$adisplay.="<p>".number_format($commissions,2)."</p>";
 		$edisplay.="<p>-</p>";
         $ddisplay.="<p>-</p>";
@@ -176,7 +175,7 @@ function generatePayslipPDF(){
 		$slip.="<p>Designation: ".$designation."</p>";}
 	if(isset($department)&&!empty($department)){
 		$slip.="<p>Department: ".$department."</p>";}
-	$slip.="<p>Salary Month: RM".$netPay."</p>";
+	$slip.="<p>Salary Month: RM".number_format($totalEarning,2)."</p>";
 	//$slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
     $slip.="</td>
         </tr>

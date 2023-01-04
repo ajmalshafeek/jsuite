@@ -97,10 +97,29 @@
                     <li><a class="nav-link"
                            href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/store/orderlist.php"; ?>"><i
                                     class="icofont-basket"></i><span>your order</span></a></li>
+
+                    <li><a class="nav-link"
+                           href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/store/recurring-invoice.php"; ?>"><i
+                                    class="icofont-spinner-alt-3"></i><span>Recurring Invoice</span></a></li>
+                    <?php // } ?>
                     <li><a class="nav-link"
                            href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/store/contact-us.php"; ?>"><i
                                     class="ui-contact-list"></i><span>Contact Us</span></a></li>
-                    <?php //} ?>
+                    <?php  if(isset($_SESSION['ComplaintClientModule'])){ ?>
+                    <li><a class="nav-link"
+                           href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/complaint/makeComplaint.php"; ?>"><i
+                                    class="icofont-basket"></i><span>Make Complaint</span></a></li>
+                    <li><a class="nav-link"
+                           href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/complaint/viewComplaint.php"; ?>"><i
+                                    class="ui-contact-list"></i><span>View Complaint</span></a></li>
+                    <?php } if(isset($_SESSION['ComplaintClientModule'])){ ?>
+                    <li><a class="nav-link"
+                           href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/request/makeRequest.php"; ?>"><i
+                                    class="icofont-basket"></i><span>Make Complaint Request</span></a></li>
+                    <li><a class="nav-link"
+                           href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/client/request/viewRequest.php"; ?>"><i
+                                    class="ui-contact-list"></i><span>View Complaint Request</span></a></li>
+                    <?php } ?>
                     <li><a class="nav-link"
                            href="<?php echo "https://" . $_SERVER['HTTP_HOST'] . $config['appRoot'] . "/phpfunctions/logout.php?logout=true"; ?>"><i
                                     class="icofont-ui-lock"></i><span>logout</span></a></li>

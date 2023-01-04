@@ -1130,6 +1130,11 @@ if ($pageCheck == 0) {
                                             Inv. List</a>
 
                                     </li>
+                                    <li>
+
+                                        <a href='<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/organization/recurringInvoice/viewRecurringInvoice.php'; ?>'>View Recuring Invoice</a>
+
+                                    </li>
 
                                 </ul>
 

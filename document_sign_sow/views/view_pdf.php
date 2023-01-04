@@ -34,11 +34,25 @@ if (!isset($_SESSION)) {
       background-color: #f2f2f2;
       padding: 25px;
     }
+	  .navbar-inverse {
+    background-color: #3c8dbc !important;;
+    border-color: #3c8dbc !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #3c8dbc;
+}
+	  .buttc a{
+	  color:black;color: white;background-color: #e91e63 !important;border-color: #e91e63 !important;margin:2px;}
+	  .pdf_div img{border: 1px solid #000;}
+	  div#pdf_div img {
+    border: 1px solid #6e6e6e !important;
+}
   </style>
 </head>
 <body>
-  <div class="container text-center">
-    <h1>Digital Sign</h1>
+  <div class="container-fluid text-center" style="background-color: #6ac2f5;">
+    <h1>E-Sign</h1>
 </div>
 
 <nav class="navbar navbar-inverse">
@@ -53,8 +67,8 @@ if (!isset($_SESSION)) {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="javacript:void(0)" onclick="save_pdf_data()">save</a></li>
-        <li class="active"><a href="javascript:window.location.reload(true)">reset</a></li>
+        <li class="active buttc"><a href="javacript:void(0)" onclick="save_pdf_data()" >save</a></li>
+        <li class="active buttc"><a href="javascript:window.location.reload(true)" >reset</a></li>
       </ul>
     </div>
   </div>

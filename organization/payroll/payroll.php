@@ -313,6 +313,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/payroll
                       <select onchange="showStaffInfo()" id="methodOfPayment" class="form-control">
                           <option value="0">Cash</option>
                           <option value="1">Cheque</option>
+                          <option value="2">Fund Transfer</option>
                       <select>
                       <div class="invalid-feedback">
                           Please choose payment method

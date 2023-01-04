@@ -23,11 +23,11 @@ class EanExt extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 	{
 		$this->init($code, $length);
 
-		$this->data['lightmL'] = $leftMargin; // LEFT light margin =  x X-dim (https://www.gs1uk.org)
-		$this->data['lightmR'] = $rightMargin; // RIGHT light margin =  x X-dim (https://www.gs1uk.org)
-		$this->data['nom-X'] = $xDim; // Nominal value for X-dim in mm (https://www.gs1uk.org)
-		$this->data['nom-H'] = $barHeight; // Nominal bar height in mm incl. numerals (https://www.gs1uk.org)
-		$this->data['sepM'] = $separatorMargin; // SEPARATION margin =  x X-dim (https://web.archive.org/web/19990501035133/https://www.uc-council.org/d36-d.htm)
+		$this->data['lightmL'] = $leftMargin; // LEFT light margin =  x X-dim (http://www.gs1uk.org)
+		$this->data['lightmR'] = $rightMargin; // RIGHT light margin =  x X-dim (http://www.gs1uk.org)
+		$this->data['nom-X'] = $xDim; // Nominal value for X-dim in mm (http://www.gs1uk.org)
+		$this->data['nom-H'] = $barHeight; // Nominal bar height in mm incl. numerals (http://www.gs1uk.org)
+		$this->data['sepM'] = $separatorMargin; // SEPARATION margin =  x X-dim (http://web.archive.org/web/19990501035133/http://www.uc-council.org/d36-d.htm)
 	}
 
 	/**
@@ -43,10 +43,10 @@ class EanExt extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 		if ($length == 2) {
 			$r = $code % 4;
 		} elseif ($length == 5) {
-			$r = (3 * ($code{0} + $code{2} + $code{4})) + (9 * ($code{1} + $code{3}));
+			$r = (3 * ($code[0] + $code[2] + $code[4])) + (9 * ($code[1] + $code[3]));
 			$r %= 10;
 		} else {
-			throw new \Mpdf\Barcode\BarcodeException('Invalid EAN barcode value');
+			throw new \Mpdf\Barcode\BarcodeException(sprintf('Invalid EAN barcode value "%s"', $code));
 		}
 
 		// Convert digits to bars
@@ -95,7 +95,7 @@ class EanExt extends \Mpdf\Barcode\AbstractBarcode implements \Mpdf\Barcode\Barc
 		];
 		$p = $parities[$length][$r];
 		$seq = '1011'; // left guard bar
-		$seq .= $codes[$p[0]][$code{0}];
+		$seq .= $codes[$p[0]][$code[0]];
 		for ($i = 1; $i < $length; ++$i) {
 			$seq .= '01'; // separator
 			$seq .= $codes[$p[$i]][$code[$i]];

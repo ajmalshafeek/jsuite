@@ -34,12 +34,29 @@ if (!isset($_SESSION)) {
       background-color: #f2f2f2;
       padding: 25px;
     }
+	  .navbar-inverse {
+    background-color: #3c8dbc !important;;
+    border-color: #3c8dbc !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #3c8dbc !important;
+}
+	  .header{
+	color: #fff !important;
+    background-color: #3c8dbc !important;
+    border-color: #abb6c2!important;
+    border-bottom-color: #3c8dbc !important;
+    border-top-color: #3c8dbc !important;
+	  }
+	  		table.dataTable tr:nth-child(odd)  { background-color: #f9d3e0;  }
+		table.dataTable tr:nth-child(even)  { background-color: #e91e63;  }
   </style>
 </head>
 <body>
 
-  <div class="container text-center">
-    <h1>Digital Sign</h1>
+  <div class="container-fluid text-center" style="background-color: #6ac2f5;">
+    <h1>E-Sign</h1>
 </div>
     <?php if(isset($_SESSION['message'])){echo $_SESSION['message']; unset($_SESSION['message']); }?>
 <nav class="navbar navbar-inverse">
@@ -57,7 +74,7 @@ if (!isset($_SESSION)) {
           <li class="active"><a href="#"><?php require_once($_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/phpfunctions/clientCompany.php");
                   dropDownListOrganizationClientCompanyActive3();   ?></a></li>
           <li class="active"><a href="#"><input type="file" name="file" class="form-control" id="file" required ></a></li>
-          <li class="active"><a href="#"><input type="submit" value="upload" style="color:black" class="form-control" name="Upload"></a></li>
+          <li class="active"><a href="#"><input type="submit" value="upload" style="color:black;color: white;background-color: #e91e63;border-color: #e91e63;" class="form-control" name="Upload"></a></li>
 
         </ul>
       </form>
@@ -74,7 +91,7 @@ if (!isset($_SESSION)) {
     <div class="col-sm-12">
       <table id="example" class="display" style="width:100%">
           <thead>
-              <tr>
+              <tr class="header">
                   <th>File Name</th>
                   <th>Size</th>
                   <th>Date Uploaded</th>
@@ -86,7 +103,7 @@ if (!isset($_SESSION)) {
               </tr>
           </thead>
           <tfoot>
-              <tr>
+              <tr class="header">
                   <th>File Name</th>
                   <th>Size</th>
                   <th>Date Uploaded</th>

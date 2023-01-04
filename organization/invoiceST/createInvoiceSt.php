@@ -68,9 +68,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 				echo "cols += `<td><input type=\"text\" class=\"form-control\" value=\"" . $item['itemRef'] . "\" name=\"itemRef' + counter + '\"/></td>`; \n";
 				echo "cols += `<td><textarea  data-toggle=\"modal\" data-target=\"#itemDescriptionModal\" class=\"form-control\" rows=\"3\" name=\"itemDesc' + counter + '\">" . $item['itemDescription'] . "</textarea></td>`; \n";
 
-
+                echo "cols += `<td><input type=\"number\" min=\"0\" max=\"20000000\"  onchange=\"calc(' + counter + ')\" class=\"form-control number-currency\" value=\"" . $item['itemDebit'] . "\" name=\"itemDebit' + counter +  '\" step=\"0.01\" /></td>`; \n";
 				echo "cols += `<td><input type=\"number\" min=\"0\" max=\"20\"  onchange=\"calc(' + counter + ')\" class=\"form-control number-currency\" value=\"" . $item['itemCredit'] . "\" name=\"itemCredit' + counter + '\" step=\"0.01\" /></td>`; \n";
-				echo "cols += `<td><input type=\"number\" min=\"0\" max=\"20000000\"  onchange=\"calc(' + counter + ')\" class=\"form-control number-currency\" value=\"" . $item['itemDebit'] . "\" name=\"itemDebit' + counter +  '\" step=\"0.01\" /></td>`; \n";
+
                // echo "cols += `<td><input type=\"text\" class=\"form-control number-currency\"  value=\"" . number_format($item['itemPrice'], 2) . "\"  name=\"itemPrice' + counter + '\"  step=\"0.01\"/></td>`; \n";
 				echo "cols += `<td><button type=\"button\"  disabled class=\"ibtnDel btn btn-md btn-danger fa fa-minus\" ></button></td>`;\n";
 				echo "newRow.append(cols);\n";
@@ -207,8 +207,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 				var itemDate = fields.eq(0).val();
 				var itemRef = fields.eq(1).val();
                 var itemDesc = fields.eq(2).val();
-				var itemCredit = fields.eq(3).val();
-				var itemDebit = fields.eq(4).val();
+
+                var itemDebit = fields.eq(3).val();
+				var itemCredit = fields.eq(4).val();
 				var itemPrice = fields.eq(5).val();
                 itemPrice = itemPrice.replace(/,/g, "");
 				var price = itemCredit - itemDebit;
@@ -221,9 +222,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 				cols += '<td valign="top"><input type="text" hidden readonly name="itemDate' + counter + '" value="' + itemDate + '" />' + itemDate + '</td>';
 				cols += '<td valign="top"><input type="text" hidden readonly name="itemRef' + counter + '" value="' + itemRef + '" />' + itemRef + '</td>';
 				cols += '<td valign="top"><textarea  hidden readonly name="itemDesc' + counter + '" value="' + itemDesc + '" >' + itemDesc + '</textarea>' + outputDesc + '</td>';
-
+                cols += '<td valign="top"><input type="number" hidden readonly class="number-currency" onchange="calc(' + counter + ')" name="itemDebit' + counter + '" value="' + parseFloat(itemDebit).toFixed(2)  + '" />' + parseFloat(itemDebit).toFixed(2)  + '</td>';
 				cols += '<td valign="top"><input type="text" hidden readonly class="number-currency" onchange="calc(' + counter + ')"  name="itemCredit' + counter + '" value="' + parseFloat(itemCredit).toFixed(2)  + '" />' + parseFloat(itemCredit).toFixed(2)  + '</td>';
-				cols += '<td valign="top"><input type="number" hidden readonly class="number-currency" onchange="calc(' + counter + ')" name="itemDebit' + counter + '" value="' + parseFloat(itemDebit).toFixed(2)  + '" />' + parseFloat(itemDebit).toFixed(2)  + '</td>';
+
 				cols += '<td valign="top"><input type="number" hidden readonly class="number-currency" name="itemPrice' + counter + '" value="' + parseFloat(price).toFixed(2) + '" />' + parseFloat(price).toFixed(2)  + '</td>';
 				newRow.append(cols);
 				$("table.quotation-Content").append(newRow);
@@ -256,9 +257,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 
 				var fields = $(this).find("input");
 
-				var itemCredit = fields.eq(3).val();
+				var itemCredit = fields.eq(4).val();
 				var itemQty = 1;
-				var itemDebit = fields.eq(4).val();
+				var itemDebit = fields.eq(3).val();
 				var price = itemCredit - itemDebit;
 
 				totalAmount += price;
@@ -362,8 +363,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 			$('#inputRowId').prop('value', rowId);
 			var itemDate = $(str).find('td').eq(0).find('input').val();
 			var itemRef = $(str).find('td').eq(1).find('input').val();
-            var itemCredit = $(str).find('td').eq(3).find('input').val();
-			var itemDebit = $(str).find('td').eq(4).find('input').val();
+
+            var itemDebit = $(str).find('td').eq(3).find('input').val();
+            var itemCredit = $(str).find('td').eq(4).find('input').val();
 			//	var itemDescription=$(str).find('td').eq(1).find('textarea').val();
 
 			var itemPrice = $(str).find('td').eq(5).find('input').val();
@@ -371,8 +373,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 			$('#inputRow_itemDate').prop('value', itemDate);
 			$('#inputRow_itemRef').prop('value', itemRef);
 			$('#inputRow_itemDescription').prop('value', itemDescription);
+
+            $('#inputRow_itemDebit').prop('value', itemDebit);
 			$('#inputRow_itemCredit').prop('value', itemCredit);
-			$('#inputRow_itemDebit').prop('value', itemDebit);
 			//$('#inputRow_itemPrice').prop('value', itemPrice);
 
 			$('#inputFormModal').modal('toggle');
@@ -440,16 +443,17 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 			var itemDate = $("#inputRow_itemDate").val();
 			var itemRef = $("#inputRow_itemRef").val();
 			var itemDescription = $("#inputRow_itemDescription").val();
+
+            var itemDebit = $("#inputRow_itemDebit").val();
 			var itemCredit = $("#inputRow_itemCredit").val();
-			var itemDebit = $("#inputRow_itemDebit").val();
 			//var itemPrice = $("#inputRow_itemPrice").val();
 
 			$("#" + rowId + "").find('td').eq(0).find('input').prop('value', itemDate);
 			$("#" + rowId + "").find('td').eq(1).find('input').prop('value', itemRef);
 			$("#" + rowId + "").find('td').eq(2).find('textarea').prop('value', itemDescription);
+            $("#" + rowId + "").find('td').eq(3).find('input').prop('value', itemDebit);
+			$("#" + rowId + "").find('td').eq(4).find('input').prop('value', itemCredit);
 
-			$("#" + rowId + "").find('td').eq(3).find('input').prop('value', itemCredit);
-			$("#" + rowId + "").find('td').eq(4).find('input').prop('value', itemDebit);
 			//$("#" + rowId + "").find('td').eq(5).find('input').prop('value', itemPrice);
 		});
 
@@ -462,8 +466,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 			cols += '<td><input type="date" class="form-control" name="itemDate' + counter + '"/></td>';
 			cols += '<td><input type="text" class="form-control" name="itemRef' + counter + '"/></td>';
 			cols += '<td><textarea data-toggle="modal" readonly data-target="#itemDescriptionModal" class="form-control" rows="3" name="itemDesc' + counter + '"/></textarea></td>';
+            cols += '<td><input type="number" min="0" max="20" class="form-control number-currency" id="itemDebit"  name="itemDebit' + counter + '"/></td>';
 			cols += '<td><input type="text" class="form-control number-currency" id="itemCredit' + counter + '"  name="itemCredit' + counter + '"/></td>';
-			cols += '<td><input type="number" min="0" max="20" class="form-control number-currency" id="itemDebit"  name="itemDebit' + counter + '"/></td>';
 			//cols += '<td><input type="number" min="0" max="2000000" class="form-control number-currency" name="itemPrice' + counter + '"/></td>';
 			//	cols += '<td><input type="text" class="form-control" name="price' + counter + '"/></td>';
 
@@ -729,13 +733,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 									<th class="text-center" class="th_desc" style="color:#19334d;width:30%">
 										Description:
 									</th>
+                                    <th class="text-center" class="th_qty" style="color:#19334d;width:12%">
+                                        Debit:
+                                    </th>
 									<th class="text-center" class="th_cost" style="color:#19334d;width:12%">
                                         Credit:
 									</th>
-
-									<th class="text-center" class="th_qty" style="color:#19334d;width:12%">
-                                        Debit:
-									</th><!--
+<!--
 									<th class="text-center" class="th_qty" style="color:#19334d;width:15%">
                                         Balance:
 									</th>-->
@@ -758,11 +762,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 									<td>
 										<textarea data-toggle="modal" readonly data-target="#itemDescriptionModal" name='itemDesc0' rows="3" class="form-control"></textarea>
 									</td>
+                                    <td>
+                                        <input type="number" name='itemDebit0' onchange="calc(0)" min="0" max="20" class="form-control number-currency" />
+                                    </td>
 									<td>
 										<input type="text" name='itemCredit0' onchange="calc(0)" class="form-control number-currency" />
-									</td>
-									<td>
-										<input type="number" name='itemDebit0' onchange="calc(0)" min="0" max="20" class="form-control number-currency" />
 									</td>
 									<!--<td>
 										<input type="number" name='itemPrice0' min="0" max="20" class="form-control number-currency" />
@@ -1006,11 +1010,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 									<th style="width:50%;min-width:200px">
 										Description:
 									</th>
+
+                                    <th style="width:5%;min-width:100px">
+                                        Debit:
+                                    </th>
                                     <th style="width:15%;min-width:100px">
 										Credit:
-									</th>
-									<th style="width:5%;min-width:100px">
-                                        Debit:
 									</th>
 									<th style="width:20%;min-width:100px"">
                                         Balance:
@@ -1150,17 +1155,17 @@ require_once($_SERVER['DOCUMENT_ROOT'] . $config['appRoot'] . "/phpfunctions/ser
 							</div>
 						</div>
 
+                        <div class="form-group row">
+                            <label for="inputRow_itemDebit" class="col-sm-2 col-form-label col-form-label-md">DEBIT</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" placeholder="Quantity" id="inputRow_itemDebit" />
+                            </div>
+                        </div>
+
 						<div class="form-group row">
 							<label for="inputRow_itemCredit" class="col-sm-2 col-form-label col-form-label-md">CREDIT</label>
 							<div class="col-sm-10">
 								<input type="number" class="form-control" placeholder="Unit price" id="inputRow_itemCredit" />
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label for="inputRow_itemDebit" class="col-sm-2 col-form-label col-form-label-md">DEBIT</label>
-							<div class="col-sm-10">
-								<input type="number" class="form-control" placeholder="Quantity" id="inputRow_itemDebit" />
 							</div>
 						</div>
 <!--

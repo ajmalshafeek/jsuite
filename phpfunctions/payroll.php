@@ -104,11 +104,9 @@ if(isset($_POST['editPayroll'])){
       }else{
         $taxId = null;
       }
-
-      $feedback = updatePayroll($con,$staffId,$basic,$epf,$socso,$socsoEmp,$pcb,$bankName,$bankAcc,$nasionality,$taxId,$epfEmp,$epfEmpyr,$eis,$epfEmpPer,$socsoEmpPer,$socsoEmployerPer);
+         $feedback = updatePayroll($con,$staffId,$basic,$epf,$socso,$socsoEmp,$pcb,$bankName,$bankAcc,$nasionality,$taxId,$epfEmp,$epfEmpyr,$eis,$epfEmpPer,$socsoEmpPer,$socsoEmployerPer);
 
   }else{
-
 
       if(isset($_POST['basic'])){
         $basic = $_POST['basic'];
@@ -149,7 +147,6 @@ if(isset($_POST['editPayroll'])){
       }else{
         $socso = null;
       }
-
 
       if(isset($_POST['socsoEmp'])){
           $socsoEmp = $_POST['socsoEmp'];
@@ -508,20 +505,20 @@ if(isset($_GET['payslip'])){
         $adisplay.="<p style='text-align:right;'>&nbsp;</p>";
     }
     if($deduction !=0){
-        $ndisplay.="<p>Deduction</p>";
+        $ndisplay.="<p>DEDUCTION</p>";
         $adisplay.="<p style='text-align:right;'>&nbsp;</p>";
     }
 	if($allowance !=0){
-		$ndisplay.="<p>Allowance</p>";
+		$ndisplay.="<p>ALLOWANCE</p>";
 		$adisplay.="<p style='text-align:right;'>".$allowance."</p>";
 	}
 	if($claims !=0){
-		$ndisplay.="<p>Claims</p>";
+		$ndisplay.="<p>CLAIMS</p>";
 		$adisplay.="<p style='text-align:right;'>".$claims."</p>";
 		
 	}
 	if($commissions !=0){
-		$ndisplay.="<p>Commissions</p>";
+		$ndisplay.="<p>COMMISSIONS</p>";
 		$adisplay.="<p style='text-align:right;'>".$commissions."</p>";
 	}
 	if($ot !=0){
@@ -529,11 +526,11 @@ if(isset($_GET['payslip'])){
 		$adisplay.="<p style='text-align:right;'>".$ot."</p>";
 	}
     if($bonus !=0){
-        $ndisplay.="<p>Bonus</p>";
+        $ndisplay.="<p>BONUS</p>";
         $adisplay.="<p style='text-align:right;'>".$bonus."</p>";
     }
 
-	
+    $rowOrgUser = fetchOrganizationUserbyId($con,$staffId);
 
     $slip=$console."<div class='p-3' style='border: 4px double black;width:100%;'>";
     $slip.="";
@@ -557,7 +554,7 @@ if(isset($_GET['payslip'])){
 <div class="row pb-0 pr-3 pl-3">
     <div class="p-3" style="border:1px solid black;border-top:0px;width:50%">
         <p style="margin-bottom:2px" >Name: '.$staffName.'</p>
-        <p style="margin-bottom:2px" >Employee ID: '.$employeeId.'</p>
+        <p style="margin-bottom:2px" >Employee ID: '.$rowOrgUser['staffId'].'</p>
         <p style="margin-bottom:2px">Tax ID: '.$taxId.'</p>
         <p style="margin-bottom:2px">Nationality: '.$nasionality.'</p>
     </div>
@@ -566,7 +563,7 @@ if(isset($_GET['payslip'])){
         if(isset($designation)&&!empty($designation)){$slip.='<p>Designation: '.$designation.'</p>';}
 		if(isset($department)&&!empty($department)){$slip.='<p>Department: '.$department.'</p>';}
 	//	$slip.='<p>Salary Month: RM '.$salaryMonth.'</p>';
-		$slip.='<p>Salary Month: '.$monthText.' '.$year.'</p>';
+		$slip.='<p>Salary Month: RM'.number_format($totalEarning,2).'</p>';
     $slip.='</div>
 
 </div>
@@ -784,7 +781,8 @@ if(isset($_GET['generatePayslipPDF'])){
         $bankName = $_SESSION['bankName'];
         $bankAcc = $_SESSION['bankAcc'];
         $netPay = $_SESSION['netPay'];
-
+    $rowOrgUser = fetchOrganizationUserbyId($con,$staffId);
+    $_SESSION['staffId']=$rowOrgUser['staffId'];
         $orgId=$_SESSION['orgId'];
     $pending=0;
 		$payslipDirectory=$_SERVER['DOCUMENT_ROOT'].$config['appRoot']."/resources/".$orgId."/payslip/";
@@ -1182,6 +1180,7 @@ if (isset($_POST['updatePayroll'])) {
 	$_SESSION['epfEmp']=$epfEmp;
 	$_SESSION['epfEmpyr']=$epfEmpyr;
 	$_SESSION['nasionalityCheck']=$nasionality;
+    $_SESSION['staffId']=$rowOrgUser['staffId'];
 
   //PAYSLIP NAME
   $payslip = generatePayslip($monthText,$staffName,$staffId,$employeeId,$designation,$department,$salaryMonth,$epf,$epfPerc,$socso,$pcb,$allowance,$claims,$commissions,$ot,$bonus,$totalEarning,$totalDeduction,$datePayment,$bankName,$bankAcc,$netPay);
@@ -1310,15 +1309,23 @@ function paymentVoucherDesign($refNo,$amount,$date,$methodOfPayment,$to,$theSumO
     $config=parse_ini_file(__DIR__."/../jsheetconfig.ini");
   $checkIcon='<img src="http://'.$_SERVER['HTTP_HOST'].$config['appRoot'].'/resources/2/extra/check.png" width="16px" height="16px">';
     if ($methodOfPayment == 0) {
-  //  $tickCash = "&#10004;";
-    $tickCash = $checkIcon;
-    $tickCheck = "";
-  }elseif ($methodOfPayment == 1) {
-    $tickCash = "";
-    //$tickCheck = "&#10004;";
-    $tickCheck = $checkIcon;
-  }
+        //  $tickCash = "&#10004;";
+        $tickCash = $checkIcon;
+        $tickCheck = "";
+        $tickFund = "";
+    }elseif ($methodOfPayment == 1) {
+        $tickCash = "";
+        //$tickCheck = "&#10004;";
+        $tickCheck = $checkIcon;
+        $tickFund = "";
+    }elseif ($methodOfPayment == 2) {
+        $tickCash = "";
+        //$tickCheck = "&#10004;";
+        $tickCheck = "";
+        $tickFund = $checkIcon;
+    }
 
+    $orgLogoSrc="http://".$_SERVER['HTTP_HOST'].$config['appRoot']."/resources/".$_SESSION['orgLogo'].".png";
   $heroFont = "font-size:30";
   $mainFont = "font-size:14";
   $content = "
@@ -1362,6 +1369,9 @@ function paymentVoucherDesign($refNo,$amount,$date,$methodOfPayment,$to,$theSumO
       <td style='width:50%;border-left:1px solid black;text-align:left;".$mainFont.";'>
         Cheque: ".$tickCheck."
       </td>
+      <td style='width:34%;border-left:1px solid black;text-align:left;".$mainFont.";'>
+        Fund Transfer: ".$tickFund."
+      </td>
     </tr>
   </table>
   <table style='width:100%;border-top:1px solid black;border-right:1px solid black;border-collapse: collapse;'>
@@ -1394,7 +1404,7 @@ function paymentVoucherDesign($refNo,$amount,$date,$methodOfPayment,$to,$theSumO
         Approved By:<br>&nbsp;&nbsp;&nbsp;&nbsp;".$approvedBy."<br><br><br>
       </td>
       <td style='width:33.33%;border-left:1px solid black;text-align:left;".$mainFont.";'>
-        Paid By:<br>&nbsp;&nbsp;&nbsp;&nbsp;".$paidBy."<br><br><br>
+        Paid By:<br>&nbsp;&nbsp;&nbsp;&nbsp;".$paidBy."<br><img style='height:60px;max-width:100pt'  src='" . $orgLogoSrc . "' alt='logo' /><br><br><br>
       </td>
       <td style='width:33.33%;border-left:1px solid black;text-align:left;".$mainFont.";'>
         Signature<br><br><br><br>

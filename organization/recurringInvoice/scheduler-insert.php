@@ -1,5 +1,6 @@
 <?php
-$config=parse_ini_file(__DIR__."./jsheetconfig.ini");
+$config=parse_ini_file(__DIR__."/jsheetconfig.ini");
+
 if(!isset($_SESSION))
 {
     session_name($config['sessionName']);
@@ -27,14 +28,15 @@ if($top_result){
 }
 
 } else */
+
 if(isset($_SESSION['recurring'])){
+
     $schedule_date=$_SESSION['reStartDate'];
     $client_id=$_SESSION['reCustomerId'];
     $invoice_id=$_SESSION['reInvoiceid'];
     $recurring=$_SESSION['recurring'];
 
-
-    $str="insert into invoice_scheduler (schedule_date,recurring,next)values('".$schedule_date."','".$recurring."','".$schedule_date."')";
+    $str="insert into invoice_scheduler (schedule_date,recurring,`next`)values('".$schedule_date."','".$recurring."','".$schedule_date."')";
     $top_result = mysqli_query($con,$str) or die(mysqli_error(e));
     $last_id = mysqli_insert_id($con);
 
@@ -50,8 +52,11 @@ if(isset($_SESSION['recurring'])){
     }
 
 } else{
+
     $schedule_date=date('Y-m-d',strtotime($_POST['schedule_date']));
 	$id=$_POST['id'];
+
+
 	
 	$str = "UPDATE `invoice_scheduler` SET  `schedule_date`='$schedule_date' WHERE `id`='$id'";
 	$top_result1 = mysqli_query($con,$str);

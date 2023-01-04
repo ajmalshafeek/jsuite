@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../dev_klsicci/.idea/dev_klsicci.iml" filepath="$PROJECT_DIR$/../../dev_klsicci/.idea/dev_klsicci.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/jsuite.iml" filepath="$PROJECT_DIR$/.idea/jsuite.iml" />
     </modules>
   </component>

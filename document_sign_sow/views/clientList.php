@@ -30,11 +30,30 @@ if (!isset($_SESSION)) {
       background-color: #f2f2f2;
       padding: 25px;
     }
+	  .navbar-inverse {
+    background-color: #3c8dbc !important;;
+    border-color: #3c8dbc !important;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #3c8dbc !important;
+}
+	  .header{
+	color: #fff !important;
+    background-color: #3c8dbc !important;
+    border-color: #abb6c2!important;
+    border-bottom-color: #3c8dbc !important;
+    border-top-color: #3c8dbc !important;
+	  }
+
+		table.dataTable tr:nth-child(odd)  { background-color: #f9d3e0;  }
+		table.dataTable tr:nth-child(even)  { background-color: #e91e63;  }
+	  
   </style>
 </head>
 <body>
-  <div class="container-fluid text-center bg-info" style="margin-bottom: 20px">
-    <h1>Digital Sign</h1>
+  <div class="container-fluid text-center" style="margin-bottom: 20px;background-color: #6ac2f5;">
+    <h1>E-Sign</h1>
 </div>
     <?php if(isset($_SESSION['message'])){echo $_SESSION['message']; unset($_SESSION['message']); }?>
 <div class="container mt-3">
@@ -42,7 +61,7 @@ if (!isset($_SESSION)) {
     <div class="col-sm-12">
       <table id="example" class="display" style="width:100%">
           <thead>
-              <tr>
+              <tr class="header">
                   <th>File Name</th>
                   <th>Size</th>
                   <th>Date Uploaded</th>
@@ -53,7 +72,7 @@ if (!isset($_SESSION)) {
               </tr>
           </thead>
           <tfoot>
-              <tr>
+              <tr class="header">
                   <th>File Name</th>
                   <th>Size</th>
                   <th>Date Uploaded</th>
@@ -75,6 +94,7 @@ if (!isset($_SESSION)) {
     $('#example').DataTable({
         ajax: '<?php echo 'https://' . $_SERVER['HTTP_HOST'] . $config['appRoot'] . '/'; ?>document_sign_sow/get_pdf_client_listings',
     });
+
   });
   function copylink(id) {
     // Get the text field

@@ -2,9 +2,9 @@
 
 /**
 	Adapted from Hyphenator 1.0.2
-	https://code.google.com/p/hyphenator/
+	http://code.google.com/p/hyphenator/
 
-	Retrieved from https://extensions.services.openoffice.org/project/french-dictionary-reform1990
+	Retrieved from http://extensions.services.openoffice.org/project/french-dictionary-reform1990
 	License: LGPL
 */
 

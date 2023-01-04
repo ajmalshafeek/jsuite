@@ -828,7 +828,7 @@ function myComplaintsTable()
 
 
 
-    $complaint = fetchComplainList($con, $picName, $occuredDate, $createdDate, $createdBy, $status, $companyId, $orgId);
+    $complaint = fetchClientViewComplainList($con, $picName, $occuredDate, $createdDate, $createdBy, $status, $companyId, $orgId);
 
 
 
